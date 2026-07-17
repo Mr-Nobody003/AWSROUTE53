@@ -1,8 +1,8 @@
 'use client';
-import { createContext, useContext, useState, ReactNode } from 'react';
-import { X } from 'lucide-react';
-import { clsx, type ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
+import { createContext, useContext, useState, ReactNode, useCallback } from 'react';
+import { X, CheckCircle2, XCircle, Info } from 'lucide-react';
+import { clsx, type ClassValue } from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -22,37 +22,72 @@ interface ToastContextType {
 
 const ToastContext = createContext<ToastContextType | undefined>(undefined);
 
+const toastConfig = {
+  success: {
+    icon: CheckCircle2,
+    bar: 'bg-emerald-500',
+    iconClass: 'text-emerald-400',
+    bg: 'bg-[#161B22] border-[#2D333B]',
+  },
+  error: {
+    icon: XCircle,
+    bar: 'bg-red-500',
+    iconClass: 'text-red-400',
+    bg: 'bg-[#161B22] border-[#2D333B]',
+  },
+  info: {
+    icon: Info,
+    bar: 'bg-blue-500',
+    iconClass: 'text-blue-400',
+    bg: 'bg-[#161B22] border-[#2D333B]',
+  },
+};
+
 export const ToastProvider = ({ children }: { children: ReactNode }) => {
   const [toasts, setToasts] = useState<Toast[]>([]);
 
-  const addToast = (message: string, type: ToastType) => {
+  const addToast = useCallback((message: string, type: ToastType) => {
     const id = Math.random().toString(36).substring(2, 9);
     setToasts((prev) => [...prev, { id, message, type }]);
     setTimeout(() => {
       setToasts((prev) => prev.filter((t) => t.id !== id));
     }, 5000);
-  };
+  }, []);
+
+  const removeToast = useCallback((id: string) => {
+    setToasts((prev) => prev.filter((t) => t.id !== id));
+  }, []);
 
   return (
     <ToastContext.Provider value={{ addToast }}>
       {children}
-      <div className="fixed top-4 right-4 z-50 flex flex-col gap-2">
-        {toasts.map((toast) => (
-          <div
-            key={toast.id}
-            className={cn(
-              "flex items-center gap-3 px-4 py-3 min-w-[300px] shadow-lg border-l-4 animate-in slide-in-from-right-full bg-white",
-              toast.type === 'success' ? "border-green-500 text-slate-800" :
-              toast.type === 'error' ? "border-red-500 text-slate-800" :
-              "border-blue-500 text-slate-800"
-            )}
-          >
-            <div className="flex-1 font-medium text-sm">{toast.message}</div>
-            <button onClick={() => setToasts(t => t.filter(x => x.id !== toast.id))} className="text-slate-400 hover:text-slate-600">
-              <X className="w-4 h-4" />
-            </button>
-          </div>
-        ))}
+      {/* Toast container */}
+      <div className="fixed bottom-5 right-5 z-[100] flex flex-col-reverse gap-2.5 max-w-sm w-full pointer-events-none">
+        {toasts.map((toast) => {
+          const cfg = toastConfig[toast.type];
+          const Icon = cfg.icon;
+          return (
+            <div
+              key={toast.id}
+              className={cn(
+                'flex items-start gap-3 p-4 rounded-xl border shadow-2xl pointer-events-auto animate-slide-in-top',
+                cfg.bg
+              )}
+              style={{ boxShadow: '0 8px 32px rgba(0,0,0,0.5)' }}
+            >
+              {/* Colored side bar */}
+              <div className={cn('w-0.5 self-stretch rounded-full flex-shrink-0', cfg.bar)} />
+              <Icon className={cn('w-4 h-4 flex-shrink-0 mt-0.5', cfg.iconClass)} />
+              <p className="flex-1 text-sm text-[#C9D1D9] leading-snug">{toast.message}</p>
+              <button
+                onClick={() => removeToast(toast.id)}
+                className="text-[#484F58] hover:text-[#8B949E] transition-colors flex-shrink-0 mt-0.5"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          );
+        })}
       </div>
     </ToastContext.Provider>
   );

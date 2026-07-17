@@ -5,7 +5,6 @@ sqlalchemy>=2.0
 pydantic
 python-jose[cryptography]
 passlib[bcrypt]
+bcrypt==3.2.2
 python-dotenv
 alembic
-sqlalchemy-libsql
-libsql

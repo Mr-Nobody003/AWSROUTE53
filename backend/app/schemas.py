@@ -13,7 +13,7 @@ class User(UserBase):
     id: int
     created_at: datetime
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class Token(BaseModel):
     access_token: str
@@ -39,7 +39,7 @@ class HostedZone(HostedZoneBase):
     created_at: datetime
     updated_at: datetime
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class RecordBase(BaseModel):
     name: str
@@ -115,7 +115,7 @@ class Record(RecordBase):
     created_at: datetime
     updated_at: datetime
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class PaginatedHostedZones(BaseModel):
     items: List[HostedZone]
