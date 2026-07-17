@@ -1,13 +1,31 @@
+import logging
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .database import engine, Base, SessionLocal
 from .routers import auth, zones, records
 from .seed import seed_db
 
-# Create tables
-Base.metadata.create_all(bind=engine)
+logger = logging.getLogger(__name__)
 
-app = FastAPI(title="AWS Route53 Clone API")
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup: create tables and seed data
+    try:
+        Base.metadata.create_all(bind=engine)
+        db = SessionLocal()
+        try:
+            seed_db(db)
+        finally:
+            db.close()
+    except Exception as e:
+        logger.error(f"Startup error (DB may not be configured): {e}")
+    yield
+    # Shutdown: nothing to clean up
+
+
+app = FastAPI(title="AWS Route53 Clone API", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -21,13 +39,6 @@ app.include_router(auth.router)
 app.include_router(zones.router)
 app.include_router(records.router)
 
-@app.on_event("startup")
-def on_startup():
-    db = SessionLocal()
-    try:
-        seed_db(db)
-    finally:
-        db.close()
 
 @app.get("/api/health")
 def health_check():
