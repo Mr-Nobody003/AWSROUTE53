@@ -167,9 +167,15 @@ All routes are prefixed with `/api/v1`.
 2. Import the project into Vercel.
 3. Vercel automatically detects the `vercel.json` and uses Vercel Services to route `/api/*` to the FastAPI backend and `/*` to Next.js.
 4. Set the following Environment Variables in Vercel:
+   -
+   Backend Deployment: 
    - `ENVIRONMENT` = `production`
    - `TURSO_DATABASE_URL` = `libsql://<your-db-url>.turso.io`
    - `TURSO_AUTH_TOKEN` = `<your-token>`
    - `JWT_SECRET_KEY` = `<strong-random-key>`
+
+   Frontend Deployment: 
+   - `ENVIRONMENT` = `production`
+   - `NEXT_PUBLIC_API_URL` = `https://your-vercel-domain.vercel.app/api`
 
 For Linux/Vercel deployments, `sqlalchemy-libsql` and `libsql` are included in `requirements.txt` to connect to Turso.
