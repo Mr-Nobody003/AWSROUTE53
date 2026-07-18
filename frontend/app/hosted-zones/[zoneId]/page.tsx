@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { DataTable } from '@/components/data-table/DataTable';
 import { RecordFormModal } from '@/components/modals/RecordFormModal';
 import { ConfirmDeleteModal } from '@/components/modals/ConfirmDeleteModal';
-import { fetchApi } from '@/lib/api';
+import { fetchApi, getBackendUrl } from '@/lib/api';
 import { Record, HostedZone, PaginatedResponse } from '@/lib/types';
 import { useToast } from '@/components/notifications/ToastProvider';
 import { Trash2, Edit2, ArrowLeft } from 'lucide-react';
@@ -89,7 +89,7 @@ export default function ZoneDetailsPage({ params }: { params: { zoneId: string }
   };
 
   if (!zone) {
-    return <div className="p-8 text-center text-slate-500">Loading zone details...</div>;
+    return <div className="p-8 text-center text-slate-500 dark:text-slate-400">Loading zone details...</div>;
   }
 
   const columns = [
@@ -111,10 +111,7 @@ export default function ZoneDetailsPage({ params }: { params: { zoneId: string }
         <div className="flex items-center gap-1">
           <button 
             onClick={() => {
-              if (item.is_default) {
-                addToast("Cannot edit default NS or SOA records directly.", "error");
-                return;
-              }
+
               setEditRecord(item);
               setIsCreateOpen(true);
             }}
@@ -144,13 +141,13 @@ export default function ZoneDetailsPage({ params }: { params: { zoneId: string }
   return (
     <div className="p-4 sm:p-8 max-w-[1200px] mx-auto">
       <div className="mb-4">
-        <Link href="/hosted-zones" className="text-orange-600 hover:underline flex items-center gap-1 text-sm font-medium w-fit">
+        <Link href="/hosted-zones" className="text-orange-600 dark:text-orange-500 hover:underline flex items-center gap-1 text-sm font-medium w-fit">
           <ArrowLeft className="w-4 h-4" /> Back to hosted zones
         </Link>
       </div>
       
       <div className="mb-6 bg-white dark:bg-[#161B22] p-6 rounded-lg shadow-sm border border-slate-200 dark:border-[#21262D]">
-        <h1 className="text-2xl font-bold text-slate-800 dark:text-[#E6EDF3] mb-4">{zone.name}</h1>
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-[#E6EDF3] mb-4">{zone.name}</h1>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-sm">
           <div>
             <div className="text-slate-500 dark:text-[#8B949E] mb-1">Hosted zone ID</div>
@@ -180,16 +177,13 @@ export default function ZoneDetailsPage({ params }: { params: { zoneId: string }
                     try {
                       const textContent = await file.text();
                       
-                      const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://127.0.0.1:8000'}/api/${process.env.NEXT_PUBLIC_API_VERSION || 'v1'}/zones/${zone.id}/import`;
-                      const res = await fetch(url, {
+                      await fetchApi(`/zones/${zone.id}/import`, {
                         method: 'POST',
                         body: textContent,
                         headers: {
                           'Content-Type': 'text/plain',
                         }
                       });
-                      
-                      if (!res.ok) throw new Error('Failed to import zone file');
                       
                       addToast('Zone file imported successfully', 'success');
                       setRefreshKey(k => k + 1);
@@ -203,7 +197,7 @@ export default function ZoneDetailsPage({ params }: { params: { zoneId: string }
               
               <button
                 onClick={() => {
-                  window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://127.0.0.1:8000'}/api/${process.env.NEXT_PUBLIC_API_VERSION || 'v1'}/zones/${zone.id}/export?format=json`;
+                  window.location.href = `${getBackendUrl()}/zones/${zone.id}/export?format=json`;
                 }}
                 className="px-3 py-1.5 text-xs font-semibold text-slate-700 dark:text-[#C9D1D9] bg-white dark:bg-[#21262D] border border-slate-300 dark:border-[#30363D] rounded-md hover:bg-slate-50 dark:hover:bg-[#30363D] transition-colors shadow-sm"
               >
@@ -212,7 +206,7 @@ export default function ZoneDetailsPage({ params }: { params: { zoneId: string }
               
               <button
                 onClick={() => {
-                  window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://127.0.0.1:8000'}/api/${process.env.NEXT_PUBLIC_API_VERSION || 'v1'}/zones/${zone.id}/export?format=bind`;
+                  window.location.href = `${getBackendUrl()}/zones/${zone.id}/export?format=bind`;
                 }}
                 className="px-3 py-1.5 text-xs font-semibold text-slate-700 dark:text-[#C9D1D9] bg-white dark:bg-[#21262D] border border-slate-300 dark:border-[#30363D] rounded-md hover:bg-slate-50 dark:hover:bg-[#30363D] transition-colors shadow-sm"
               >

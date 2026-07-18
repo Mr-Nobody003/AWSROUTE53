@@ -7,9 +7,21 @@ export const getBackendUrl = () => {
   return `/api/${version}`;
 };
 
+const cache = new Map<string, { data: any; timestamp: number }>();
+const CACHE_TTL = 60000; // 60 seconds
+
 export const fetchApi = async (endpoint: string, options: RequestInit = {}) => {
   const url = `${getBackendUrl()}${endpoint}`;
   
+  const isGet = !options.method || options.method.toUpperCase() === 'GET';
+  
+  if (isGet) {
+    const cached = cache.get(url);
+    if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+      return cached.data;
+    }
+  }
+
   const response = await fetch(url, {
     ...options,
     headers: {
@@ -22,15 +34,27 @@ export const fetchApi = async (endpoint: string, options: RequestInit = {}) => {
     let message = 'An error occurred';
     try {
       const errorData = await response.json();
-      message = errorData.detail || message;
+      if (Array.isArray(errorData.detail)) {
+        message = errorData.detail.map((e: any) => `${e.loc.slice(-1)[0]}: ${e.msg}`).join(', ');
+      } else {
+        message = errorData.detail || message;
+      }
     } catch (e) {}
     throw new Error(message);
   }
 
-  // Handle 204 No Content
   if (response.status === 204) {
+    if (!isGet) cache.clear(); // Invalidate on mutation
     return null;
   }
 
-  return response.json();
+  const data = await response.json();
+  
+  if (isGet) {
+    cache.set(url, { data, timestamp: Date.now() });
+  } else {
+    cache.clear(); // Invalidate all cache on any mutation to ensure consistency
+  }
+
+  return data;
 };

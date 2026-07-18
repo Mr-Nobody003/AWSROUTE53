@@ -20,11 +20,11 @@ export function SideNav() {
   return (
     <aside
       style={{ width: 'var(--sidebar-width)' }}
-      className="bg-[#161B22] border-r border-[#21262D] flex flex-col h-full"
+      className="bg-slate-50 dark:bg-[#161B22] border-r border-slate-200 dark:border-[#21262D] flex flex-col h-full"
     >
       {/* Section label */}
       <div className="px-4 pt-5 pb-2">
-        <span className="text-[10px] font-bold uppercase tracking-widest text-[#484F58]">
+        <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-[#484F58]">
           Route 53
         </span>
       </div>
@@ -40,17 +40,17 @@ export function SideNav() {
                   className={cn(
                     'group flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-all duration-150 relative',
                     isActive
-                      ? 'bg-[#FF9900]/10 text-[#FF9900]'
-                      : 'text-[#8B949E] hover:bg-[#21262D] hover:text-[#E6EDF3]'
+                      ? 'bg-orange-100 dark:bg-[#FF9900]/10 text-orange-600 dark:text-[#FF9900]'
+                      : 'text-slate-500 dark:text-[#8B949E] hover:bg-slate-200 dark:hover:bg-[#21262D] hover:text-slate-900 dark:hover:text-[#E6EDF3]'
                   )}
                 >
                   {isActive && (
-                    <span className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-[#FF9900] rounded-r-full" />
+                    <span className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-orange-500 dark:bg-[#FF9900] rounded-r-full" />
                   )}
                   <item.icon
                     className={cn(
                       'w-4 h-4 flex-shrink-0 transition-colors',
-                      isActive ? 'text-[#FF9900]' : 'text-[#484F58] group-hover:text-[#8B949E]'
+                      isActive ? 'text-orange-500 dark:text-[#FF9900]' : 'text-slate-400 dark:text-[#484F58] group-hover:text-slate-500 dark:group-hover:text-[#8B949E]'
                     )}
                   />
                   <span className="truncate">{item.name}</span>
@@ -62,8 +62,8 @@ export function SideNav() {
       </nav>
 
       {/* Footer */}
-      <div className="p-4 border-t border-[#21262D]">
-        <div className="flex items-center gap-2 text-[10px] text-[#484F58]">
+      <div className="p-4 border-t border-slate-200 dark:border-[#21262D]">
+        <div className="flex items-center gap-2 text-[10px] text-slate-500 dark:text-[#484F58]">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
           Connected to API
         </div>

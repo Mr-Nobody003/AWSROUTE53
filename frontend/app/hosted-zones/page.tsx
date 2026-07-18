@@ -72,7 +72,7 @@ export default function HostedZonesPage() {
           className="group flex items-center gap-2 text-[#58A6FF] hover:text-[#79BEFF] font-medium transition-colors"
           onClick={(e) => e.stopPropagation()}
         >
-          <Globe className="w-3.5 h-3.5 text-[#484F58] group-hover:text-[#58A6FF] transition-colors flex-shrink-0" />
+          <Globe className="w-3.5 h-3.5 text-slate-500 dark:text-[#484F58] group-hover:text-[#58A6FF] transition-colors flex-shrink-0" />
           {item.name}
           <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0" />
         </Link>
@@ -88,13 +88,13 @@ export default function HostedZonesPage() {
     },
     {
       header: 'Record Count',
-      cell: () => <span className="text-[#484F58] tabular-nums">—</span>,
+      cell: () => <span className="text-slate-500 dark:text-[#484F58] tabular-nums">—</span>,
     },
     {
       header: 'Description',
       cell: (item: HostedZone) => (
-        <span className="text-[#8B949E] truncate max-w-xs block">
-          {(item as any).comment || <span className="text-[#484F58]">—</span>}
+        <span className="text-slate-500 dark:text-[#8B949E] truncate max-w-xs block">
+          {(item as any).comment || <span className="text-slate-500 dark:text-[#484F58]">—</span>}
         </span>
       ),
     },
@@ -108,7 +108,7 @@ export default function HostedZonesPage() {
               setEditZone(item);
               setIsCreateOpen(true);
             }}
-            className="p-1.5 rounded-md text-[#484F58] hover:text-blue-400 hover:bg-blue-500/10 transition-colors"
+            className="p-1.5 rounded-md text-slate-500 dark:text-[#484F58] hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-500/10 transition-colors"
             title="Edit zone"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
@@ -118,7 +118,7 @@ export default function HostedZonesPage() {
               e.stopPropagation();
               setDeleteZone(item);
             }}
-            className="p-1.5 rounded-md text-[#484F58] hover:text-red-400 hover:bg-red-500/10 transition-colors"
+            className="p-1.5 rounded-md text-slate-500 dark:text-[#484F58] hover:text-red-600 dark:hover:text-red-400 hover:bg-red-100 dark:hover:bg-red-500/10 transition-colors"
             title="Delete zone"
           >
             <Trash2 className="w-3.5 h-3.5" />
@@ -132,13 +132,13 @@ export default function HostedZonesPage() {
     <div className="p-6 sm:p-8 max-w-[1280px] mx-auto">
       {/* Page header */}
       <div className="mb-8">
-        <div className="flex items-center gap-2 text-xs text-[#8B949E] mb-3">
+        <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-[#8B949E] mb-3">
           <span>Route 53</span>
-          <span className="text-[#484F58]">/</span>
-          <span className="text-[#E6EDF3]">Hosted Zones</span>
+          <span className="text-slate-300 dark:text-[#484F58]">/</span>
+          <span className="text-slate-900 dark:text-[#E6EDF3]">Hosted Zones</span>
         </div>
-        <h1 className="text-2xl font-bold text-[#E6EDF3]">Hosted Zones</h1>
-        <p className="text-sm text-[#8B949E] mt-1.5 max-w-2xl">
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-[#E6EDF3]">Hosted Zones</h1>
+        <p className="text-sm text-slate-500 dark:text-[#8B949E] mt-1.5 max-w-2xl">
           A hosted zone is a container for records that define how traffic is routed for a domain and its subdomains.
         </p>
       </div>
@@ -174,7 +174,7 @@ export default function HostedZonesPage() {
         message={
           <>
             Are you sure you want to delete{' '}
-            <strong className="text-[#E6EDF3]">{deleteZone?.name}</strong>? All DNS records within
+            <strong className="text-slate-900 dark:text-[#E6EDF3]">{deleteZone?.name}</strong>? All DNS records within
             this zone will be permanently removed.
           </>
         }

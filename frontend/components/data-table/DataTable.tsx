@@ -85,17 +85,17 @@ export function DataTable<T extends { id: string | number }>({
   const to = Math.min(page * pageSize, total);
 
   return (
-    <div className="bg-[#161B22] border border-[#21262D] rounded-xl overflow-hidden shadow-lg">
+    <div className="bg-white dark:bg-[#161B22] border border-slate-200 dark:border-[#21262D] rounded-xl overflow-hidden shadow-lg">
       {/* Toolbar */}
-      <div className="px-5 py-4 border-b border-[#21262D] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+      <div className="px-5 py-4 border-b border-slate-200 dark:border-[#21262D] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
         <div>
-          <h2 className="text-base font-semibold text-[#E6EDF3]">{title}</h2>
-          <p className="text-xs text-[#8B949E] mt-0.5">{total} resource{total !== 1 ? 's' : ''}</p>
+          <h2 className="text-base font-semibold text-slate-900 dark:text-[#E6EDF3]">{title}</h2>
+          <p className="text-xs text-slate-500 dark:text-[#8B949E] mt-0.5">{total} resource{total !== 1 ? 's' : ''}</p>
         </div>
         <div className="flex items-center gap-2 w-full sm:w-auto">
           {/* Search */}
           <div className="relative flex-1 sm:w-64">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-[#484F58]" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400 dark:text-[#484F58]" />
             <input
               type="text"
               placeholder={searchPlaceholder}
@@ -104,7 +104,7 @@ export function DataTable<T extends { id: string | number }>({
                 setSearch(e.target.value);
                 setPage(1);
               }}
-              className="w-full pl-8 pr-3 py-2 text-sm bg-[#0D1117] border border-[#30363D] rounded-md text-[#E6EDF3] placeholder-[#484F58] focus:outline-none focus:border-[#FF9900]/60 focus:ring-1 focus:ring-[#FF9900]/20 transition-all"
+              className="w-full pl-8 pr-3 py-2 text-sm bg-white dark:bg-[#0D1117] border border-slate-300 dark:border-[#30363D] rounded-md text-slate-900 dark:text-[#E6EDF3] placeholder-slate-400 dark:placeholder-[#484F58] focus:outline-none focus:border-[#FF9900]/60 focus:ring-1 focus:ring-[#FF9900]/20 transition-all"
             />
           </div>
 
@@ -112,7 +112,7 @@ export function DataTable<T extends { id: string | number }>({
           <button
             onClick={loadData}
             disabled={loading}
-            className="p-2 rounded-md text-[#8B949E] hover:text-[#E6EDF3] bg-[#21262D] hover:bg-[#2D333B] border border-[#30363D] transition-colors disabled:opacity-50"
+            className="p-2 rounded-md text-slate-500 dark:text-[#8B949E] hover:text-slate-900 dark:hover:text-[#E6EDF3] bg-slate-100 dark:bg-[#21262D] hover:bg-slate-200 dark:hover:bg-[#2D333B] border border-slate-300 dark:border-[#30363D] transition-colors disabled:opacity-50"
             title="Refresh"
           >
             <RefreshCw className={cn('w-3.5 h-3.5', loading && 'animate-spin')} />
@@ -161,7 +161,7 @@ export function DataTable<T extends { id: string | number }>({
                 <td colSpan={columns.length + (enableSelection ? 1 : 0)} className="px-4 py-16 text-center">
                   <div className="flex flex-col items-center gap-3">
                     <Loader2 className="w-6 h-6 text-[#FF9900] animate-spin" />
-                    <span className="text-sm text-[#8B949E]">Loading resources...</span>
+                    <span className="text-sm text-slate-500 dark:text-[#8B949E]">Loading resources...</span>
                   </div>
                 </td>
               </tr>
@@ -169,13 +169,13 @@ export function DataTable<T extends { id: string | number }>({
               <tr>
                 <td colSpan={columns.length + (enableSelection ? 1 : 0)} className="px-4 py-16 text-center">
                   <div className="flex flex-col items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-[#21262D] flex items-center justify-center">
-                      <Search className="w-5 h-5 text-[#484F58]" />
+                    <div className="w-10 h-10 rounded-full bg-slate-100 dark:bg-[#21262D] flex items-center justify-center">
+                      <Search className="w-5 h-5 text-slate-400 dark:text-[#484F58]" />
                     </div>
                     <div>
-                      <p className="text-sm text-[#8B949E] font-medium">No resources found</p>
+                      <p className="text-sm text-slate-500 dark:text-[#8B949E] font-medium">No resources found</p>
                       {search && (
-                        <p className="text-xs text-[#484F58] mt-0.5">
+                        <p className="text-xs text-slate-400 dark:text-[#484F58] mt-0.5">
                           Try a different search term
                         </p>
                       )}
@@ -187,7 +187,7 @@ export function DataTable<T extends { id: string | number }>({
               items.map((item) => (
                 <tr
                   key={item.id}
-                  className={cn(onRowClick && 'cursor-pointer')}
+                  className={cn('group', onRowClick && 'cursor-pointer')}
                   onClick={() => onRowClick && onRowClick(item)}
                 >
                   {enableSelection && (
@@ -217,25 +217,25 @@ export function DataTable<T extends { id: string | number }>({
       </div>
 
       {/* Pagination */}
-      <div className="px-5 py-3.5 border-t border-[#21262D] flex items-center justify-between">
-        <span className="text-xs text-[#8B949E]">
+      <div className="px-5 py-3.5 border-t border-slate-200 dark:border-[#21262D] flex items-center justify-between">
+        <span className="text-xs text-slate-500 dark:text-[#8B949E]">
           {total === 0 ? 'No results' : `Showing ${from}–${to} of ${total}`}
         </span>
         <div className="flex items-center gap-1">
           <button
             disabled={page === 1}
             onClick={() => setPage((p) => Math.max(1, p - 1))}
-            className="p-1.5 rounded-md border border-[#30363D] bg-[#21262D] text-[#8B949E] hover:text-[#E6EDF3] hover:bg-[#2D333B] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            className="p-1.5 rounded-md border border-slate-300 dark:border-[#30363D] bg-slate-100 dark:bg-[#21262D] text-slate-500 dark:text-[#8B949E] hover:text-slate-900 dark:hover:text-[#E6EDF3] hover:bg-slate-200 dark:hover:bg-[#2D333B] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
           >
             <ChevronLeft className="w-3.5 h-3.5" />
           </button>
-          <span className="px-3 text-xs text-[#8B949E] tabular-nums">
+          <span className="px-3 text-xs text-slate-500 dark:text-[#8B949E] tabular-nums">
             {page} / {totalPages}
           </span>
           <button
             disabled={page === totalPages || total === 0}
             onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-            className="p-1.5 rounded-md border border-[#30363D] bg-[#21262D] text-[#8B949E] hover:text-[#E6EDF3] hover:bg-[#2D333B] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            className="p-1.5 rounded-md border border-slate-300 dark:border-[#30363D] bg-slate-100 dark:bg-[#21262D] text-slate-500 dark:text-[#8B949E] hover:text-slate-900 dark:hover:text-[#E6EDF3] hover:bg-slate-200 dark:hover:bg-[#2D333B] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
           >
             <ChevronRight className="w-3.5 h-3.5" />
           </button>
