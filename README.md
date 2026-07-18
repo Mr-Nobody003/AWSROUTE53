@@ -176,6 +176,6 @@ All routes are prefixed with `/api/v1`.
 
    Frontend Deployment: 
    - `ENVIRONMENT` = `production`
-   - `NEXT_PUBLIC_API_URL` = `https://your-vercel-domain.vercel.app/api`
+   - `NEXT_PUBLIC_API_URL` = `https://your-vercel-domain.vercel.app`
 
 For Linux/Vercel deployments, `sqlalchemy-libsql` and `libsql` are included in `requirements.txt` to connect to Turso.
