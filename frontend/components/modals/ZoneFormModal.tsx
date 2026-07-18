@@ -1,6 +1,5 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { X, Globe } from 'lucide-react';
 
 interface ZoneFormModalProps {
   isOpen: boolean;
@@ -43,145 +42,153 @@ export function ZoneFormModal({ isOpen, onClose, onSubmit, initialData }: ZoneFo
   };
 
   return (
-    <>
-      {/* Backdrop */}
-      <div
-        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 animate-fade-in"
-        onClick={onClose}
-      />
-
-      {/* Drawer */}
-      <div className="fixed inset-y-0 right-0 z-50 w-full sm:w-[480px] flex flex-col bg-white dark:bg-[#161B22] border-l border-slate-200 dark:border-[#21262D] shadow-2xl animate-slide-in-right">
-        {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-[#21262D] flex-shrink-0 bg-slate-50 dark:bg-transparent">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-[#FF9900]/10 border border-[#FF9900]/20 flex items-center justify-center">
-              <Globe className="w-4 h-4 text-[#FF9900]" />
-            </div>
-            <div>
-              <h2 className="text-sm font-semibold text-slate-900 dark:text-[#E6EDF3]">
-                {initialData ? 'Edit Hosted Zone' : 'Create Hosted Zone'}
-              </h2>
-              <p className="text-xs text-slate-500 dark:text-[#8B949E]">Configure your DNS zone settings</p>
-            </div>
-          </div>
-          <button
-            onClick={onClose}
-            disabled={loading}
-            className="p-1.5 rounded-md text-slate-500 dark:text-[#8B949E] hover:text-slate-900 dark:hover:text-[#E6EDF3] hover:bg-slate-200 dark:hover:bg-[#21262D] transition-colors disabled:opacity-50"
-          >
-            <X className="w-4 h-4" />
-          </button>
+    <div className="fixed inset-0 bg-[#f2f3f3] dark:bg-[#0D1117] z-50 overflow-y-auto">
+      <div className="max-w-[1200px] mx-auto p-4 sm:p-8">
+        
+        {/* Breadcrumbs */}
+        <div className="mb-4 flex items-center gap-1 text-sm text-gray-500 dark:text-[#8B949E]">
+          <span className="text-blue-600 dark:text-blue-400 hover:underline cursor-pointer">Route 53</span>
+          <span className="text-gray-400">&gt;</span>
+          <span className="text-blue-600 dark:text-blue-400 hover:underline cursor-pointer">Hosted zones</span>
+          <span className="text-gray-400">&gt;</span>
+          <span className="text-gray-900 dark:text-[#E6EDF3]">{initialData ? 'Edit hosted zone' : 'Create hosted zone'}</span>
         </div>
 
-        {/* Form body */}
-        <form onSubmit={handleSubmit} className="flex-1 flex flex-col overflow-hidden">
-          <div className="flex-1 overflow-y-auto px-6 py-6 space-y-6">
-            {/* Domain name */}
-            <div>
-              <label className="block text-sm font-medium text-slate-900 dark:text-[#E6EDF3] mb-1.5">
-                Domain name <span className="text-red-500 dark:text-red-400 normal-case">*</span>
-              </label>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                disabled={!!initialData || loading}
-                placeholder="example.com"
-                className="w-full px-3 py-2 text-sm border border-slate-300 dark:border-[#30363D] rounded-md focus:outline-none focus:ring-2 focus:ring-[#FF9900]/50 focus:border-[#FF9900] disabled:opacity-50 disabled:bg-slate-100 dark:disabled:bg-[#0D1117] bg-white dark:bg-[#0D1117] text-slate-900 dark:text-[#E6EDF3] transition-all"
-                required
-              />
-              <p className="text-xs text-slate-500 dark:text-[#8B949E] mt-1.5">
-                Enter the name of the domain (e.g., example.com)
+        <h1 className="text-2xl font-normal text-gray-900 dark:text-[#E6EDF3] mb-6 flex items-center gap-2">
+          {initialData ? 'Edit hosted zone' : 'Create hosted zone'}
+          <span className="text-blue-600 dark:text-blue-400 text-sm cursor-pointer hover:underline">Info</span>
+        </h1>
+
+        <form onSubmit={handleSubmit} className="space-y-6 pb-20">
+          
+          {/* Main Card */}
+          <div className="bg-white dark:bg-[#161B22] border border-gray-200 dark:border-[#30363D] shadow-sm">
+            <div className="px-6 py-4 border-b border-gray-200 dark:border-[#30363D]">
+              <h2 className="text-lg font-bold text-gray-900 dark:text-[#E6EDF3]">Hosted zone configuration</h2>
+              <p className="text-[13px] text-gray-600 dark:text-[#8B949E] mt-1">
+                A hosted zone is a container that holds information about how you want to route traffic for a domain, such as example.com, and its subdomains.
               </p>
             </div>
+            
+            <div className="p-6 space-y-6">
+              {/* Domain name */}
+              <div>
+                <label className="block text-sm font-bold text-gray-900 dark:text-[#E6EDF3] mb-1 flex items-center gap-1">
+                  Domain name
+                  <span className="text-blue-600 dark:text-blue-400 text-xs font-normal cursor-pointer hover:underline">Info</span>
+                </label>
+                <p className="text-[13px] text-gray-600 dark:text-[#8B949E] mb-2">This is the name of the domain that you want to route traffic for.</p>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  disabled={!!initialData || loading}
+                  className="w-full max-w-2xl px-3 py-1.5 text-[13px] border border-gray-400 dark:border-[#484F58] focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 rounded-sm disabled:bg-gray-100 dark:disabled:bg-[#0D1117] bg-white dark:bg-[#0D1117] text-gray-900 dark:text-[#E6EDF3]"
+                  required
+                />
+                <p className="text-[11px] text-gray-500 dark:text-[#8B949E] mt-1">
+                  Valid characters: a-z, 0-9, ! " # $ % & ' ( ) * + , - / : ; &lt; = &gt; ? @ [ \ ] ^ _ ` &#123; | &#125; . ~
+                </p>
+              </div>
 
-            {/* Zone type */}
-            <div>
-              <label className="block text-sm font-medium text-slate-900 dark:text-[#E6EDF3] mb-1.5">Zone type</label>
-              <div className="space-y-3 mt-1">
-                {[
-                  {
-                    value: 'Public',
-                    label: 'Public hosted zone',
-                    desc: 'Routes traffic on the public internet',
-                  },
-                  {
-                    value: 'Private',
-                    label: 'Private hosted zone',
-                    desc: 'Routes traffic within Amazon Virtual Private Clouds (VPCs) only',
-                  },
-                ].map((opt) => (
-                  <label
-                    key={opt.value}
-                    className={`flex items-start gap-3 p-3.5 rounded-lg border cursor-pointer transition-all ${
-                      type === opt.value
-                        ? 'border-[#FF9900]/60 bg-[#FF9900]/5 dark:bg-[#FF9900]/8'
-                        : 'border-slate-200 dark:border-[#30363D] bg-slate-50 dark:bg-[#0D1117] hover:border-slate-300 dark:hover:border-[#484F58]'
-                    }`}
-                  >
-                    <input
-                      type="radio"
-                      name="zone-type"
-                      value={opt.value}
-                      checked={type === opt.value}
-                      onChange={() => setType(opt.value)}
-                      disabled={loading}
-                      className="mt-0.5 accent-[#FF9900]"
+              {/* Description */}
+              <div>
+                <label className="block text-sm font-bold text-gray-900 dark:text-[#E6EDF3] mb-1 flex items-center gap-1">
+                  Description - <span className="font-normal italic">optional</span>
+                  <span className="text-blue-600 dark:text-blue-400 text-xs font-normal cursor-pointer hover:underline">Info</span>
+                </label>
+                <p className="text-[13px] text-gray-600 dark:text-[#8B949E] mb-2">This value lets you distinguish hosted zones that have the same name.</p>
+                <textarea
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                  disabled={loading}
+                  rows={3}
+                  className="w-full max-w-2xl px-3 py-1.5 text-[13px] border border-gray-400 dark:border-[#484F58] focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 rounded-sm disabled:bg-gray-100 dark:disabled:bg-[#0D1117] bg-white dark:bg-[#0D1117] text-gray-900 dark:text-[#E6EDF3] italic placeholder:text-gray-400"
+                  placeholder="The hosted zone is used for..."
+                />
+                <p className="text-[11px] text-gray-500 dark:text-[#8B949E] mt-1">
+                  The description can have up to 256 characters. {comment.length}/256
+                </p>
+              </div>
+
+              {/* Type */}
+              <div>
+                <label className="block text-sm font-bold text-gray-900 dark:text-[#E6EDF3] mb-1 flex items-center gap-1">
+                  Type
+                  <span className="text-blue-600 dark:text-blue-400 text-xs font-normal cursor-pointer hover:underline">Info</span>
+                </label>
+                <p className="text-[13px] text-gray-600 dark:text-[#8B949E] mb-2">The type indicates whether you want to route traffic on the internet or in an Amazon VPC.</p>
+                
+                <div className="flex flex-col sm:flex-row gap-4 max-w-3xl mt-3">
+                  <label className={`flex-1 flex gap-3 p-4 border ${type === 'Public' ? 'border-blue-600 ring-1 ring-blue-600 bg-blue-50/30 dark:bg-blue-900/10' : 'border-gray-300 dark:border-[#484F58] hover:border-gray-400 dark:hover:border-gray-500'} cursor-pointer`}>
+                    <input 
+                      type="radio" 
+                      checked={type === 'Public'} 
+                      onChange={() => setType('Public')} 
+                      className="mt-1 w-4 h-4 text-blue-600 focus:ring-blue-500 border-gray-300" 
                     />
                     <div>
-                      <div
-                        className={`text-sm font-medium ${
-                          type === opt.value ? 'text-[#FF9900]' : 'text-slate-700 dark:text-[#C9D1D9]'
-                        }`}
-                      >
-                        {opt.label}
-                      </div>
-                      <div className="text-xs text-slate-500 dark:text-[#8B949E] mt-0.5">{opt.desc}</div>
+                      <div className="text-[13px] font-bold text-gray-900 dark:text-[#E6EDF3]">Public hosted zone</div>
+                      <div className="text-[13px] text-gray-600 dark:text-[#8B949E] mt-1">A public hosted zone determines how traffic is routed on the internet.</div>
                     </div>
                   </label>
-                ))}
+                  
+                  <label className={`flex-1 flex gap-3 p-4 border ${type === 'Private' ? 'border-blue-600 ring-1 ring-blue-600 bg-blue-50/30 dark:bg-blue-900/10' : 'border-gray-300 dark:border-[#484F58] hover:border-gray-400 dark:hover:border-gray-500'} cursor-pointer`}>
+                    <input 
+                      type="radio" 
+                      checked={type === 'Private'} 
+                      onChange={() => setType('Private')} 
+                      className="mt-1 w-4 h-4 text-blue-600 focus:ring-blue-500 border-gray-300" 
+                    />
+                    <div>
+                      <div className="text-[13px] font-bold text-gray-900 dark:text-[#E6EDF3]">Private hosted zone</div>
+                      <div className="text-[13px] text-gray-600 dark:text-[#8B949E] mt-1">A private hosted zone determines how traffic is routed within an Amazon VPC.</div>
+                    </div>
+                  </label>
+                </div>
               </div>
             </div>
-
-            {/* Description */}
-            <div>
-              <label className="block text-sm font-medium text-slate-900 dark:text-[#E6EDF3] mb-1.5">Description (optional)</label>
-              <textarea
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-                disabled={loading}
-                rows={3}
-                placeholder="Add a description for this hosted zone..."
-                className="w-full px-3 py-2 text-sm border border-slate-300 dark:border-[#30363D] rounded-md focus:outline-none focus:ring-2 focus:ring-[#FF9900]/50 focus:border-[#FF9900] disabled:opacity-50 disabled:bg-slate-100 dark:disabled:bg-[#0D1117] bg-white dark:bg-[#0D1117] text-slate-900 dark:text-[#E6EDF3] resize-none transition-all"
-              />
+          </div>
+          
+          {/* Tags Section (Mocked for UI matching) */}
+          <div className="bg-white dark:bg-[#161B22] border border-gray-200 dark:border-[#30363D] shadow-sm">
+            <div className="px-6 py-5">
+              <label className="block text-sm font-bold text-gray-900 dark:text-[#E6EDF3] mb-1 flex items-center gap-1">
+                Tags
+                <span className="text-blue-600 dark:text-blue-400 text-xs font-normal cursor-pointer hover:underline">Info</span>
+              </label>
+              <p className="text-[13px] text-gray-600 dark:text-[#8B949E] mb-6">Apply tags to hosted zones to help organize and identify them.</p>
+              
+              <p className="text-[13px] text-gray-600 dark:text-[#8B949E] mb-4">No tags associated with the resource.</p>
+              
+              <button type="button" className="px-4 py-1 text-sm font-bold text-gray-700 dark:text-[#C9D1D9] bg-white dark:bg-[#21262D] border border-gray-400 dark:border-[#484F58] rounded-sm hover:bg-gray-50 dark:hover:bg-[#30363D] shadow-sm mb-1">
+                Add tag
+              </button>
+              <p className="text-[11px] text-gray-500 dark:text-[#8B949E]">You can add up to 50 more tags.</p>
             </div>
           </div>
 
-          {/* Footer */}
-          <div className="flex justify-end gap-3 px-6 py-4 border-t border-slate-200 dark:border-[#21262D] flex-shrink-0 bg-slate-50 dark:bg-[#13161B]">
-            <button type="button" onClick={onClose} disabled={loading} className="px-4 py-2 text-sm font-medium text-slate-700 dark:text-[#C9D1D9] bg-white dark:bg-[#21262D] border border-slate-300 dark:border-[#30363D] rounded-md hover:bg-slate-50 dark:hover:bg-[#30363D] transition-colors disabled:opacity-50">
+          {/* Sticky Footer */}
+          <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-[#161B22] border-t border-gray-300 dark:border-[#30363D] p-4 flex justify-end gap-4 shadow-[0_-2px_10px_rgba(0,0,0,0.05)]">
+            <button 
+              type="button" 
+              onClick={onClose} 
+              disabled={loading}
+              className="px-4 py-1.5 text-[13px] font-bold text-gray-700 dark:text-[#C9D1D9] hover:underline disabled:opacity-50"
+            >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading || !name.trim()}
-              className="px-4 py-2 text-sm font-medium text-white bg-[#FF9900] hover:bg-[#E68900] rounded-md transition-colors disabled:opacity-50 disabled:hover:bg-[#FF9900] flex items-center justify-center gap-2"
+              className="px-4 py-1.5 text-[13px] font-bold text-[#0D1117] bg-[#FF9900] hover:bg-[#E68900] rounded-sm transition-colors disabled:opacity-50 disabled:hover:bg-[#FF9900] shadow-sm flex items-center gap-2"
             >
-              {loading ? (
-                <>
-                  <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  {initialData ? 'Saving...' : 'Creating...'}
-                </>
-              ) : initialData ? (
-                'Save changes'
-              ) : (
-                'Create hosted zone'
-              )}
+              {loading && <span className="w-3.5 h-3.5 border-2 border-[#0D1117]/30 border-t-[#0D1117] rounded-full animate-spin" />}
+              {initialData ? 'Save changes' : 'Create hosted zone'}
             </button>
           </div>
         </form>
       </div>
-    </>
+    </div>
   );
 }

@@ -297,6 +297,24 @@ export default function ZoneDetailsPage({ params }: { params: { zoneId: string }
                   }}
                 />
               </label>
+
+              <button
+                onClick={() => {
+                  window.location.href = `${getBackendUrl()}/zones/${zone.id}/export?format=json`;
+                }}
+                className="px-3 py-1 text-sm font-bold text-gray-700 dark:text-[#C9D1D9] bg-white dark:bg-[#21262D] border border-gray-300 dark:border-[#30363D] rounded-sm hover:bg-gray-50 dark:hover:bg-[#30363D] shadow-sm transition-colors whitespace-nowrap"
+              >
+                Export JSON
+              </button>
+              
+              <button
+                onClick={() => {
+                  window.location.href = `${getBackendUrl()}/zones/${zone.id}/export?format=bind`;
+                }}
+                className="px-3 py-1 text-sm font-bold text-gray-700 dark:text-[#C9D1D9] bg-white dark:bg-[#21262D] border border-gray-300 dark:border-[#30363D] rounded-sm hover:bg-gray-50 dark:hover:bg-[#30363D] shadow-sm transition-colors whitespace-nowrap"
+              >
+                Export BIND
+              </button>
             </div>
           )}
         />
