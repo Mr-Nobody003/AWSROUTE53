@@ -1,6 +1,7 @@
-// Helper to get backend URL from Vercel Services or local proxy
+// Helper to get backend URL — strips trailing slash to avoid double-slash in URLs
 export const getBackendUrl = () => {
-  return process.env.NEXT_PUBLIC_BACKEND_URL || '/api';
+  const url = process.env.NEXT_PUBLIC_BACKEND_URL || '/api';
+  return url.replace(/\/$/, '');
 };
 
 export const fetchApi = async (endpoint: string, options: RequestInit = {}) => {
