@@ -1,7 +1,9 @@
-// Helper to get backend URL — strips trailing slash to avoid double-slash in URLs
 export const getBackendUrl = () => {
-  const url = process.env.NEXT_PUBLIC_BACKEND_URL || '/api';
-  return url.replace(/\/$/, '');
+  if (typeof window === 'undefined') {
+    const url = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://127.0.0.1:8000';
+    return `${url.replace(/\/$/, '')}/api`;
+  }
+  return '/api';
 };
 
 export const fetchApi = async (endpoint: string, options: RequestInit = {}) => {

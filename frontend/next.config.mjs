@@ -9,15 +9,12 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   async rewrites() {
-    // In production, NEXT_PUBLIC_BACKEND_URL is set so rewrites are not used.
-    // In local dev, proxy /api/* to the local uvicorn server.
-    if (process.env.NEXT_PUBLIC_BACKEND_URL) {
-      return [];
-    }
+    // Proxy /api/* to the backend server. This ensures cookies are set on the frontend domain.
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://127.0.0.1:8000';
     return [
       {
         source: '/api/:path*',
-        destination: 'http://127.0.0.1:8000/api/:path*',
+        destination: `${backendUrl.replace(/\/$/, '')}/api/:path*`,
       },
     ];
   },
