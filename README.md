@@ -173,9 +173,10 @@ All routes are prefixed with `/api/v1`.
    - `TURSO_DATABASE_URL` = `libsql://<your-db-url>.turso.io`
    - `TURSO_AUTH_TOKEN` = `<your-token>`
    - `JWT_SECRET_KEY` = `<strong-random-key>`
+   - `FRONTEND_URL` = `<your-frontend-url>`
 
    Frontend Deployment: 
    - `ENVIRONMENT` = `production`
-   - `NEXT_PUBLIC_API_URL` = `https://your-vercel-domain.vercel.app`
+   - `NEXT_PUBLIC_API_URL` = `<your-vercel-domain.vercel.app>`
 
 For Linux/Vercel deployments, `sqlalchemy-libsql` and `libsql` are included in `requirements.txt` to connect to Turso.

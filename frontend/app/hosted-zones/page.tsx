@@ -88,7 +88,7 @@ export default function HostedZonesPage() {
     },
     {
       header: 'Record Count',
-      cell: () => <span className="text-slate-500 dark:text-[#484F58] tabular-nums">—</span>,
+      cell: (item: HostedZone) => <span className="text-slate-500 dark:text-[#484F58] tabular-nums">{item.record_count}</span>,
     },
     {
       header: 'Description',

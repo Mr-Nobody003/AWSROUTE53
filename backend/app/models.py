@@ -24,6 +24,10 @@ class HostedZone(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
+    @property
+    def record_count(self) -> int:
+        return len(self.records) if self.records else 0
+
     records = relationship("Record", back_populates="zone", cascade="all, delete-orphan")
 
 class Record(Base):

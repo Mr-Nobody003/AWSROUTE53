@@ -38,6 +38,7 @@ class HostedZone(HostedZoneBase):
     id: str
     created_at: datetime
     updated_at: datetime
+    record_count: int = 0
     class Config:
         from_attributes = True
 

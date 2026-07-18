@@ -31,7 +31,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-[calc(100vh-var(--topnav-height))] bg-[#0D1117] relative overflow-hidden">
+    <div className="flex items-center justify-center min-h-[calc(100vh-var(--topnav-height))] bg-slate-50 dark:bg-[#0D1117] relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-[#FF9900]/5 rounded-full blur-3xl" />
@@ -47,20 +47,18 @@ export default function LoginPage() {
 
       <div className="relative w-full max-w-md mx-4 animate-scale-in">
         {/* Card */}
-        <div className="bg-[#161B22] border border-[#21262D] rounded-2xl shadow-2xl overflow-hidden">
+        <div className="bg-white dark:bg-[#161B22] border border-slate-200 dark:border-[#21262D] rounded-2xl shadow-2xl overflow-hidden">
           {/* Header band */}
           <div className="bg-gradient-to-r from-[#FF9900]/20 to-[#FFB347]/10 border-b border-[#FF9900]/20 px-8 py-6 text-center">
-            <div className="flex items-center justify-center w-14 h-14 mx-auto mb-4 rounded-2xl bg-[#FF9900] shadow-[0_0_30px_rgba(255,153,0,0.4)]">
-              <Zap className="w-7 h-7 text-[#0D1117] fill-current" />
-            </div>
-            <h1 className="text-xl font-bold text-[#E6EDF3]">AWS Route 53 Console</h1>
-            <p className="text-sm text-[#8B949E] mt-1">Sign in to manage your DNS infrastructure</p>
+            <img src="/logo.png" alt="Logo" className="w-16 h-16 mx-auto mb-4 object-contain" />
+            <h1 className="text-xl font-bold text-slate-900 dark:text-[#E6EDF3]">AWS Route 53 Console</h1>
+            <p className="text-sm text-slate-500 dark:text-[#8B949E] mt-1">Sign in to manage your DNS infrastructure</p>
           </div>
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="p-8 space-y-5">
             {/* Demo hint */}
-            <div className="flex items-center gap-2.5 px-3.5 py-3 rounded-lg bg-[#FF9900]/8 border border-[#FF9900]/20 text-xs text-[#FFB347]">
+            <div className="flex items-center gap-2.5 px-3.5 py-3 rounded-lg bg-[#FF9900]/10 border border-[#FF9900]/30 text-xs text-[#E68900] dark:text-[#FFB347]">
               <Lock className="w-3.5 h-3.5 flex-shrink-0" />
               <span>Demo credentials are pre-filled — just click Sign in</span>
             </div>
@@ -69,7 +67,7 @@ export default function LoginPage() {
             <div>
               <label className="input-label">Username</label>
               <div className="relative">
-                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[#484F58]">
+                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-[#484F58]">
                   <User className="w-4 h-4" />
                 </div>
                 <input
@@ -89,7 +87,7 @@ export default function LoginPage() {
             <div>
               <label className="input-label">Password</label>
               <div className="relative">
-                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[#484F58]">
+                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-[#484F58]">
                   <Lock className="w-4 h-4" />
                 </div>
                 <input
@@ -105,7 +103,7 @@ export default function LoginPage() {
                 <button
                   type="button"
                   onClick={() => setShowPassword((v) => !v)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#484F58] hover:text-[#8B949E] transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-[#484F58] hover:text-slate-600 dark:hover:text-[#8B949E] transition-colors"
                   tabIndex={-1}
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -136,8 +134,8 @@ export default function LoginPage() {
         </div>
 
         {/* Footer note */}
-        <p className="text-center text-xs text-[#484F58] mt-5">
-          AWS Route 53 Clone · For demonstration purposes only
+        <p className="text-center text-xs text-slate-500 dark:text-[#484F58] mt-5">
+          AWS Route 53 Demo
         </p>
       </div>
     </div>

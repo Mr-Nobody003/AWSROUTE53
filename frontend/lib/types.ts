@@ -11,6 +11,7 @@ export interface HostedZone {
   comment: string | null;
   created_at: string;
   updated_at: string;
+  record_count: number;
 }
 
 export interface Record {
