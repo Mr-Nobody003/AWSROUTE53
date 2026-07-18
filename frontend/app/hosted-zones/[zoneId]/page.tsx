@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { DataTable } from '@/components/data-table/DataTable';
 import { RecordFormModal } from '@/components/modals/RecordFormModal';
@@ -17,6 +17,8 @@ export default function ZoneDetailsPage({ params }: { params: { zoneId: string }
   const [deleteRecord, setDeleteRecord] = useState<Record | null>(null);
   const [deleting, setDeleting] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [bulkDeleting, setBulkDeleting] = useState(false);
   const { addToast } = useToast();
   const router = useRouter();
 
@@ -233,7 +235,7 @@ export default function ZoneDetailsPage({ params }: { params: { zoneId: string }
           setIsCreateOpen(true);
         }}
         enableSelection
-        onSelectionChange={(ids) => setSelectedIds(ids as number[])}
+        onSelectionChange={(ids) => setSelectedIds(ids as string[])}
         bulkActions={
           <button
             onClick={handleBulkDelete}
