@@ -8,5 +8,5 @@ passlib[bcrypt]
 bcrypt==3.2.2
 python-dotenv
 alembic
-sqlalchemy-libsql
+sqlalchemy-libsql; sys_platform != 'win32'
 python-multipart
