@@ -1,9 +1,10 @@
 export const getBackendUrl = () => {
+  const version = process.env.NEXT_PUBLIC_API_VERSION || 'v1';
   if (typeof window === 'undefined') {
     const url = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://127.0.0.1:8000';
-    return `${url.replace(/\/$/, '')}/api`;
+    return `${url.replace(/\/$/, '')}/api/${version}`;
   }
-  return '/api';
+  return `/api/${version}`;
 };
 
 export const fetchApi = async (endpoint: string, options: RequestInit = {}) => {

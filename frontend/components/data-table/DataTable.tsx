@@ -17,6 +17,9 @@ interface DataTableProps<T> {
   createButtonText?: string;
   onCreateClick?: () => void;
   title: string;
+  enableSelection?: boolean;
+  onSelectionChange?: (selectedIds: string[] | number[]) => void;
+  bulkActions?: React.ReactNode;
 }
 
 export function DataTable<T extends { id: string | number }>({
@@ -27,12 +30,16 @@ export function DataTable<T extends { id: string | number }>({
   createButtonText,
   onCreateClick,
   title,
+  enableSelection,
+  onSelectionChange,
+  bulkActions,
 }: DataTableProps<T>) {
   const [items, setItems] = useState<T[]>([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(true);
+  const [selectedIds, setSelectedIds] = useState<Array<string | number>>([]);
   const pageSize = 10;
 
   const loadData = useCallback(async () => {
@@ -50,7 +57,28 @@ export function DataTable<T extends { id: string | number }>({
 
   useEffect(() => {
     loadData();
+    setSelectedIds([]); // Clear selection on reload
   }, [loadData]);
+
+  useEffect(() => {
+    if (onSelectionChange) {
+      onSelectionChange(selectedIds as any);
+    }
+  }, [selectedIds, onSelectionChange]);
+
+  const toggleSelection = (id: string | number) => {
+    setSelectedIds((prev) => 
+      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
+    );
+  };
+
+  const toggleAll = () => {
+    if (selectedIds.length === items.length && items.length > 0) {
+      setSelectedIds([]);
+    } else {
+      setSelectedIds(items.map((i) => i.id));
+    }
+  };
 
   const totalPages = Math.ceil(total / pageSize) || 1;
   const from = total === 0 ? 0 : Math.min((page - 1) * pageSize + 1, total);
@@ -90,6 +118,9 @@ export function DataTable<T extends { id: string | number }>({
             <RefreshCw className={cn('w-3.5 h-3.5', loading && 'animate-spin')} />
           </button>
 
+          {/* Bulk Actions */}
+          {enableSelection && selectedIds.length > 0 && bulkActions}
+
           {/* Create */}
           {createButtonText && onCreateClick && (
             <button
@@ -109,6 +140,16 @@ export function DataTable<T extends { id: string | number }>({
         <table className="data-table">
           <thead>
             <tr>
+              {enableSelection && (
+                <th className="w-10 text-center">
+                  <input 
+                    type="checkbox" 
+                    checked={selectedIds.length === items.length && items.length > 0}
+                    onChange={toggleAll}
+                    className="accent-[#FF9900] cursor-pointer"
+                  />
+                </th>
+              )}
               {columns.map((col, i) => (
                 <th key={i}>{col.header}</th>
               ))}
@@ -117,7 +158,7 @@ export function DataTable<T extends { id: string | number }>({
           <tbody>
             {loading && items.length === 0 ? (
               <tr>
-                <td colSpan={columns.length} className="px-4 py-16 text-center">
+                <td colSpan={columns.length + (enableSelection ? 1 : 0)} className="px-4 py-16 text-center">
                   <div className="flex flex-col items-center gap-3">
                     <Loader2 className="w-6 h-6 text-[#FF9900] animate-spin" />
                     <span className="text-sm text-[#8B949E]">Loading resources...</span>
@@ -126,7 +167,7 @@ export function DataTable<T extends { id: string | number }>({
               </tr>
             ) : items.length === 0 ? (
               <tr>
-                <td colSpan={columns.length} className="px-4 py-16 text-center">
+                <td colSpan={columns.length + (enableSelection ? 1 : 0)} className="px-4 py-16 text-center">
                   <div className="flex flex-col items-center gap-3">
                     <div className="w-10 h-10 rounded-full bg-[#21262D] flex items-center justify-center">
                       <Search className="w-5 h-5 text-[#484F58]" />
@@ -149,6 +190,16 @@ export function DataTable<T extends { id: string | number }>({
                   className={cn(onRowClick && 'cursor-pointer')}
                   onClick={() => onRowClick && onRowClick(item)}
                 >
+                  {enableSelection && (
+                    <td className="w-10 text-center" onClick={(e) => e.stopPropagation()}>
+                      <input 
+                        type="checkbox" 
+                        checked={selectedIds.includes(item.id)}
+                        onChange={() => toggleSelection(item.id)}
+                        className="accent-[#FF9900] cursor-pointer"
+                      />
+                    </td>
+                  )}
                   {columns.map((col, i) => (
                     <td key={i}>
                       {col.cell

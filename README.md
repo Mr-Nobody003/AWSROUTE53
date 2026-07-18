@@ -11,6 +11,17 @@ The application uses a separated frontend and backend deployed using Vercel Serv
 - **Backend:** FastAPI, SQLAlchemy
 - **Database:** SQLite (local development) / Turso (production via `libsql` dialect)
 
+## Features
+
+- **Zone Management**: Create, view, edit, and force-delete public or private hosted zones.
+- **Record Management**: Create, update, and delete DNS records with validations.
+- **Bulk Operations**: Multi-select support for deleting multiple DNS records at once.
+- **Import/Export**: Import BIND zone files, or export zones to BIND and JSON formats.
+- **Light/Dark Mode**: Automatic detection with manual toggle support.
+- **Keyboard Shortcuts**: Power user shortcuts (e.g. `H` for hosted zones, `/` for search, `N` for new).
+- **Notification Center**: Persistent notifications history with read states, stored via toast provider.
+- **API Versioning**: Environment variable driven frontend to backend routing via `/api/v1/`.
+
 ## Local Development Setup
 
 ### Backend
@@ -61,19 +72,21 @@ The application uses a separated frontend and backend deployed using Vercel Serv
 
 ## API Overview
 
-All routes are prefixed with `/api`.
-- `POST /api/auth/login`: Authenticate and set JWT cookie.
-- `GET /api/auth/me`: Get current user details.
-- `POST /api/auth/logout`: Clear JWT cookie.
-- `GET /api/zones`: List paginated zones with search filtering.
-- `POST /api/zones`: Create a new zone.
-- `GET /api/zones/{id}`: Get zone details.
-- `PUT /api/zones/{id}`: Update zone comment/type.
-- `DELETE /api/zones/{id}`: Delete a zone.
-- `GET /api/zones/{zone_id}/records`: List paginated records.
-- `POST /api/zones/{zone_id}/records`: Create a DNS record.
-- `PUT /api/zones/{zone_id}/records/{record_id}`: Update a DNS record.
-- `DELETE /api/zones/{zone_id}/records/{record_id}`: Delete a DNS record.
+All routes are prefixed with `/api/v1`.
+- `POST /api/v1/auth/login`: Authenticate and set JWT cookie.
+- `GET /api/v1/auth/me`: Get current user details.
+- `POST /api/v1/auth/logout`: Clear JWT cookie.
+- `GET /api/v1/zones`: List paginated zones with search filtering.
+- `POST /api/v1/zones`: Create a new zone.
+- `GET /api/v1/zones/{id}`: Get zone details.
+- `PUT /api/v1/zones/{id}`: Update zone comment/type.
+- `DELETE /api/v1/zones/{id}`: Delete a zone. (Pass `?force=true` to delete zones with records).
+- `GET /api/v1/zones/{zone_id}/export`: Export zone records to JSON or BIND format.
+- `POST /api/v1/zones/{zone_id}/import`: Import DNS records from BIND format.
+- `GET /api/v1/zones/{zone_id}/records`: List paginated records.
+- `POST /api/v1/zones/{zone_id}/records`: Create a DNS record.
+- `PUT /api/v1/zones/{zone_id}/records/{record_id}`: Update a DNS record.
+- `DELETE /api/v1/zones/{zone_id}/records/{record_id}`: Delete a DNS record.
 
 ## Known Limitations
 

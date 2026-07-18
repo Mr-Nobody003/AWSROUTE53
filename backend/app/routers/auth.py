@@ -6,7 +6,7 @@ from ..config import settings
 from typing import Optional
 
 router = APIRouter(
-    prefix="/api/auth",
+    prefix="/api/v1/auth",
     tags=["auth"],
 )
 

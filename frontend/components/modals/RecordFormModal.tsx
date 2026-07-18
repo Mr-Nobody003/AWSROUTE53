@@ -66,12 +66,12 @@ export function RecordFormModal({ isOpen, onClose, onSubmit, initialData, zoneNa
   return (
     <div className="fixed inset-y-0 right-0 z-50 flex max-w-full w-full sm:w-[600px]">
       <div className="absolute inset-0 bg-slate-900/20 sm:hidden" onClick={onClose} />
-      <div className="relative w-full h-full bg-white shadow-2xl border-l border-slate-200 flex flex-col animate-in slide-in-from-right">
-        <div className="flex items-center justify-between p-4 border-b border-slate-200 bg-slate-50">
-          <h2 className="text-lg font-semibold text-slate-800">
+      <div className="relative w-full h-full bg-white dark:bg-[#161B22] shadow-2xl border-l border-slate-200 dark:border-[#21262D] flex flex-col animate-in slide-in-from-right">
+        <div className="flex items-center justify-between p-4 border-b border-slate-200 dark:border-[#21262D] bg-slate-50 dark:bg-[#0D1117]">
+          <h2 className="text-lg font-semibold text-slate-800 dark:text-[#E6EDF3]">
             {initialData ? 'Edit record' : 'Create record'}
           </h2>
-          <button onClick={onClose} disabled={loading} className="text-slate-400 hover:text-slate-600">
+          <button onClick={onClose} disabled={loading} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -80,29 +80,29 @@ export function RecordFormModal({ isOpen, onClose, onSubmit, initialData, zoneNa
           <div className="p-6 flex-1 overflow-y-auto space-y-6">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-semibold text-slate-800 mb-1">Record name</label>
-                <div className="flex items-center border border-slate-300 rounded overflow-hidden focus-within:ring-1 focus-within:ring-orange-500 focus-within:border-orange-500">
+                <label className="block text-sm font-semibold text-slate-800 dark:text-[#E6EDF3] mb-1">Record name</label>
+                <div className="flex items-center border border-slate-300 dark:border-[#30363D] rounded overflow-hidden focus-within:ring-1 focus-within:ring-orange-500 focus-within:border-orange-500">
                   <input 
                     type="text" 
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     disabled={loading || !!initialData}
-                    className="w-full px-3 py-1.5 text-sm outline-none disabled:bg-slate-100 disabled:text-slate-500"
+                    className="w-full px-3 py-1.5 text-sm outline-none disabled:bg-slate-100 dark:disabled:bg-[#0D1117] disabled:text-slate-500 dark:bg-[#161B22] dark:text-[#E6EDF3]"
                     placeholder="www"
                   />
-                  <div className="px-3 py-1.5 bg-slate-100 border-l border-slate-300 text-sm text-slate-600 whitespace-nowrap">
+                  <div className="px-3 py-1.5 bg-slate-100 dark:bg-[#0D1117] border-l border-slate-300 dark:border-[#30363D] text-sm text-slate-600 dark:text-[#8B949E] whitespace-nowrap">
                     .{zoneName}
                   </div>
                 </div>
               </div>
               
               <div>
-                <label className="block text-sm font-semibold text-slate-800 mb-1">Record type</label>
+                <label className="block text-sm font-semibold text-slate-800 dark:text-[#E6EDF3] mb-1">Record type</label>
                 <select 
                   value={type}
                   onChange={(e) => setType(e.target.value)}
                   disabled={loading || !!initialData}
-                  className="w-full px-3 py-1.5 text-sm border border-slate-300 rounded focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500 disabled:bg-slate-100 disabled:text-slate-500"
+                  className="w-full px-3 py-1.5 text-sm border border-slate-300 dark:border-[#30363D] rounded focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500 disabled:bg-slate-100 dark:disabled:bg-[#0D1117] disabled:text-slate-500 dark:bg-[#161B22] dark:text-[#E6EDF3] [&>option]:dark:bg-[#161B22] [&>option]:dark:text-[#E6EDF3]"
                 >
                   <option value="A">A - Routes traffic to an IPv4 address and some AWS resources</option>
                   <option value="AAAA">AAAA - Routes traffic to an IPv6 address and some AWS resources</option>
@@ -118,16 +118,16 @@ export function RecordFormModal({ isOpen, onClose, onSubmit, initialData, zoneNa
             </div>
             
             <div>
-              <label className="block text-sm font-semibold text-slate-800 mb-1">Value</label>
+              <label className="block text-sm font-semibold text-slate-800 dark:text-[#E6EDF3] mb-1">Value</label>
               <textarea 
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
                 disabled={loading}
                 rows={5}
                 required
-                className="w-full px-3 py-2 text-sm border border-slate-300 rounded focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500 font-mono"
+                className="w-full px-3 py-2 text-sm border border-slate-300 dark:border-[#30363D] rounded focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500 font-mono dark:bg-[#161B22] dark:text-[#E6EDF3]"
               />
-              <div className="flex gap-2 mt-2 items-start text-sm text-slate-600">
+              <div className="flex gap-2 mt-2 items-start text-sm text-slate-600 dark:text-[#8B949E]">
                 <Info className="w-4 h-4 mt-0.5 text-blue-500 flex-shrink-0" />
                 <p>{getFormatHint()}</p>
               </div>
@@ -135,24 +135,24 @@ export function RecordFormModal({ isOpen, onClose, onSubmit, initialData, zoneNa
             
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-semibold text-slate-800 mb-1">TTL (seconds)</label>
+                <label className="block text-sm font-semibold text-slate-800 dark:text-[#E6EDF3] mb-1">TTL (seconds)</label>
                 <input 
                   type="number" 
                   value={ttl}
                   onChange={(e) => setTtl(parseInt(e.target.value) || 300)}
                   disabled={loading}
                   min="0"
-                  className="w-full px-3 py-1.5 text-sm border border-slate-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  className="w-full px-3 py-1.5 text-sm border border-slate-300 dark:border-[#30363D] rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 dark:bg-[#161B22] dark:text-[#E6EDF3]"
                 />
               </div>
               
               <div>
-                <label className="block text-sm font-semibold text-slate-800 mb-1">Routing policy</label>
+                <label className="block text-sm font-semibold text-slate-800 dark:text-[#E6EDF3] mb-1">Routing policy</label>
                 <select 
                   value={routingPolicy}
                   onChange={(e) => setRoutingPolicy(e.target.value)}
                   disabled={loading}
-                  className="w-full px-3 py-1.5 text-sm border border-slate-300 rounded focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+                  className="w-full px-3 py-1.5 text-sm border border-slate-300 dark:border-[#30363D] rounded focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500 dark:bg-[#161B22] dark:text-[#E6EDF3] [&>option]:dark:bg-[#161B22] [&>option]:dark:text-[#E6EDF3]"
                 >
                   <option value="simple">Simple routing</option>
                   <option value="weighted">Weighted routing</option>
@@ -167,12 +167,12 @@ export function RecordFormModal({ isOpen, onClose, onSubmit, initialData, zoneNa
             </div>
           </div>
           
-          <div className="p-4 border-t border-slate-200 bg-slate-50 flex justify-end gap-3">
+          <div className="p-4 border-t border-slate-200 dark:border-[#21262D] bg-slate-50 dark:bg-[#0D1117] flex justify-end gap-3">
             <button 
               type="button"
               onClick={onClose} 
               disabled={loading}
-              className="px-4 py-1.5 text-sm font-semibold text-slate-700 border border-slate-300 rounded hover:bg-slate-100 disabled:opacity-50"
+              className="px-4 py-1.5 text-sm font-semibold text-slate-700 dark:text-[#C9D1D9] border border-slate-300 dark:border-[#30363D] rounded hover:bg-slate-100 dark:hover:bg-[#21262D] disabled:opacity-50"
             >
               Cancel
             </button>

@@ -12,6 +12,7 @@ import Link from 'next/link';
 
 export default function HostedZonesPage() {
   const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [editZone, setEditZone] = useState<HostedZone | null>(null);
   const [deleteZone, setDeleteZone] = useState<HostedZone | null>(null);
   const [deleting, setDeleting] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
@@ -24,16 +25,25 @@ export default function HostedZonesPage() {
     return await fetchApi(url);
   };
 
-  const handleCreate = async (data: any) => {
+  const handleSave = async (data: any) => {
     try {
-      await fetchApi('/zones', {
-        method: 'POST',
-        body: JSON.stringify(data),
-      });
-      addToast('Hosted zone created successfully', 'success');
+      if (editZone) {
+        await fetchApi(`/zones/${editZone.id}`, {
+          method: 'PUT',
+          body: JSON.stringify(data),
+        });
+        addToast('Hosted zone updated successfully', 'success');
+      } else {
+        await fetchApi('/zones', {
+          method: 'POST',
+          body: JSON.stringify(data),
+        });
+        addToast('Hosted zone created successfully', 'success');
+      }
       setRefreshKey((k) => k + 1);
+      setEditZone(null);
     } catch (e: any) {
-      addToast(e.message || 'Failed to create hosted zone', 'error');
+      addToast(e.message || `Failed to ${editZone ? 'update' : 'create'} hosted zone`, 'error');
       throw e;
     }
   };
@@ -42,7 +52,7 @@ export default function HostedZonesPage() {
     if (!deleteZone) return;
     setDeleting(true);
     try {
-      await fetchApi(`/zones/${deleteZone.id}`, { method: 'DELETE' });
+      await fetchApi(`/zones/${deleteZone.id}?force=true`, { method: 'DELETE' });
       addToast(`Hosted zone "${deleteZone.name}" deleted`, 'success');
       setDeleteZone(null);
       setRefreshKey((k) => k + 1);
@@ -91,16 +101,29 @@ export default function HostedZonesPage() {
     {
       header: '',
       cell: (item: HostedZone) => (
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            setDeleteZone(item);
-          }}
-          className="p-1.5 rounded-md text-[#484F58] hover:text-red-400 hover:bg-red-500/10 transition-all opacity-0 group-hover:opacity-100"
-          title="Delete zone"
-        >
-          <Trash2 className="w-3.5 h-3.5" />
-        </button>
+        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setEditZone(item);
+              setIsCreateOpen(true);
+            }}
+            className="p-1.5 rounded-md text-[#484F58] hover:text-blue-400 hover:bg-blue-500/10 transition-colors"
+            title="Edit zone"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
+          </button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setDeleteZone(item);
+            }}
+            className="p-1.5 rounded-md text-[#484F58] hover:text-red-400 hover:bg-red-500/10 transition-colors"
+            title="Delete zone"
+          >
+            <Trash2 className="w-3.5 h-3.5" />
+          </button>
+        </div>
       ),
     },
   ];
@@ -127,13 +150,20 @@ export default function HostedZonesPage() {
         fetchData={fetchZones}
         searchPlaceholder="Filter by name or ID"
         createButtonText="Create hosted zone"
-        onCreateClick={() => setIsCreateOpen(true)}
+        onCreateClick={() => {
+          setEditZone(null);
+          setIsCreateOpen(true);
+        }}
       />
 
       <ZoneFormModal
         isOpen={isCreateOpen}
-        onClose={() => setIsCreateOpen(false)}
-        onSubmit={handleCreate}
+        onClose={() => {
+          setIsCreateOpen(false);
+          setEditZone(null);
+        }}
+        onSubmit={handleSave}
+        initialData={editZone}
       />
 
       <ConfirmDeleteModal

@@ -34,9 +34,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+from .routers import auth, zones, records, import_export
 app.include_router(auth.router)
 app.include_router(zones.router)
 app.include_router(records.router)
+app.include_router(import_export.router)
 
 
 @app.get("/api/health")

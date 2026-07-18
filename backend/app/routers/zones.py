@@ -4,7 +4,7 @@ from .. import models, schemas, deps
 from typing import Optional
 
 router = APIRouter(
-    prefix="/api/zones",
+    prefix="/api/v1/zones",
     tags=["zones"],
     dependencies=[Depends(deps.get_current_user)]
 )
