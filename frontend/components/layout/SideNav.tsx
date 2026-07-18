@@ -1,4 +1,5 @@
 'use client';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '../notifications/ToastProvider';
@@ -15,6 +16,29 @@ const navItems = [
 
 export function SideNav() {
   const pathname = usePathname();
+  const [isApiConnected, setIsApiConnected] = useState<boolean>(false);
+
+  useEffect(() => {
+    let isMounted = true;
+    const checkHealth = async () => {
+      try {
+        const res = await fetch('/api/health');
+        if (isMounted) setIsApiConnected(res.ok);
+      } catch (err) {
+        if (isMounted) setIsApiConnected(false);
+      }
+    };
+
+    checkHealth();
+    // Poll every 30 seconds
+    const interval = setInterval(checkHealth, 30000); 
+
+    return () => {
+      isMounted = false;
+      clearInterval(interval);
+    };
+  }, []);
+
   if (pathname === '/login') return null;
 
   return (
@@ -64,8 +88,17 @@ export function SideNav() {
       {/* Footer */}
       <div className="p-4 border-t border-slate-200 dark:border-[#21262D]">
         <div className="flex items-center gap-2 text-[10px] text-slate-500 dark:text-[#484F58]">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-          Connected to API
+          {isApiConnected ? (
+            <>
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              Connected to API
+            </>
+          ) : (
+            <>
+              <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
+              API Disconnected
+            </>
+          )}
         </div>
       </div>
     </aside>
