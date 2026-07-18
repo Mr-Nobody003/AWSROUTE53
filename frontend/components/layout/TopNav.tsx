@@ -1,3 +1,4 @@
+'use client';
 import { useState, useRef, useEffect } from 'react';
 import { useAuth } from '@/lib/auth-context';
 import { useTheme } from '@/components/theme/ThemeProvider';
