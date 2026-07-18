@@ -8,8 +8,15 @@ Base = declarative_base()
 
 def _build_database_url() -> str:
     if settings.turso_database_url and settings.turso_auth_token:
-        host = settings.turso_database_url.replace("libsql://", "")
-        return f"sqlite+libsql://{host}?authToken={settings.turso_auth_token}&secure=true"
+        host = settings.turso_database_url
+        if host.startswith("libsql://"):
+            host = host.replace("libsql://", "")
+        elif host.startswith("https://"):
+            host = host.replace("https://", "")
+            
+        if host.endswith("/"):
+            host = host[:-1]
+        return f"sqlite+libsql://{host}/?secure=true"
     return f"sqlite:///{settings.local_db_path}"
 
 
@@ -19,7 +26,11 @@ def _get_engine():
     Using lru_cache instead of module-level code ensures env vars are
     read at first request time, not at cold-start import time on Vercel."""
     url = _build_database_url()
-    connect_args = {"check_same_thread": False} if url.startswith("sqlite:///") else {}
+    connect_args = {}
+    if url.startswith("sqlite+libsql://"):
+        connect_args["auth_token"] = settings.turso_auth_token
+    elif url.startswith("sqlite:///"):
+        connect_args["check_same_thread"] = False
     return create_engine(url, connect_args=connect_args)
 
 
