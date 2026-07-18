@@ -7,10 +7,10 @@ export const getBackendUrl = () => {
   return `/api/${version}`;
 };
 
-const cache = new Map<string, { data: any; timestamp: number }>();
-const CACHE_TTL = 60000; // 60 seconds
+const cache = new Map<string, { data: unknown; timestamp: number }>();
+const CACHE_TTL = 6000000; // 600 seconds
 
-export const fetchApi = async (endpoint: string, options: RequestInit = {}) => {
+export const fetchApi = async <T = unknown>(endpoint: string, options: RequestInit = {}): Promise<T> => {
   const url = `${getBackendUrl()}${endpoint}`;
   
   const isGet = !options.method || options.method.toUpperCase() === 'GET';
@@ -18,7 +18,7 @@ export const fetchApi = async (endpoint: string, options: RequestInit = {}) => {
   if (isGet) {
     const cached = cache.get(url);
     if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
-      return cached.data;
+      return cached.data as T;
     }
   }
 
@@ -33,19 +33,30 @@ export const fetchApi = async (endpoint: string, options: RequestInit = {}) => {
   if (!response.ok) {
     let message = 'An error occurred';
     try {
-      const errorData = await response.json();
-      if (Array.isArray(errorData.detail)) {
-        message = errorData.detail.map((e: any) => `${e.loc.slice(-1)[0]}: ${e.msg}`).join(', ');
-      } else {
-        message = errorData.detail || message;
+      const errorData = await response.json() as unknown;
+      if (
+        typeof errorData === 'object' &&
+        errorData !== null &&
+        Array.isArray((errorData as { detail?: unknown }).detail)
+      ) {
+        const details = (errorData as { detail: Array<{ loc: string[]; msg: string }> }).detail;
+        message = details.map((e) => `${e.loc.slice(-1)[0]}: ${e.msg}`).join(', ');
+      } else if (
+        typeof errorData === 'object' &&
+        errorData !== null &&
+        typeof (errorData as { detail?: unknown }).detail === 'string'
+      ) {
+        message = (errorData as { detail: string }).detail;
       }
-    } catch (e) {}
+    } catch {
+      // ignore JSON parse errors for error responses
+    }
     throw new Error(message);
   }
 
   if (response.status === 204) {
     if (!isGet) cache.clear(); // Invalidate on mutation
-    return null;
+    return null as unknown as T;
   }
 
   const data = await response.json();
