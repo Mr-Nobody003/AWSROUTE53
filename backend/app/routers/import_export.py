@@ -1,5 +1,5 @@
 import re
-from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File
+from fastapi import APIRouter, Depends, HTTPException, status, Request
 from fastapi.responses import Response
 from sqlalchemy.orm import Session
 from .. import models, schemas, deps
@@ -49,12 +49,12 @@ def export_zone(zone_id: str, format: str = "json", db: Session = Depends(deps.g
         raise HTTPException(status_code=400, detail="Invalid format. Use 'json' or 'bind'.")
 
 @router.post("/import", status_code=status.HTTP_201_CREATED)
-async def import_zone(zone_id: str, file: UploadFile = File(...), db: Session = Depends(deps.get_db)):
+async def import_zone(zone_id: str, request: Request, db: Session = Depends(deps.get_db)):
     zone = db.query(models.HostedZone).filter(models.HostedZone.id == zone_id).first()
     if not zone:
         raise HTTPException(status_code=404, detail="Hosted Zone not found")
         
-    content = await file.read()
+    content = await request.body()
     text = content.decode('utf-8')
     
     records_to_add = []

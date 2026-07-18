@@ -176,14 +176,15 @@ export default function ZoneDetailsPage({ params }: { params: { zoneId: string }
                     const file = e.target.files?.[0];
                     if (!file) return;
                     try {
-                      const formData = new FormData();
-                      formData.append('file', file);
+                      const textContent = await file.text();
                       
                       const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://127.0.0.1:8000'}/api/${process.env.NEXT_PUBLIC_API_VERSION || 'v1'}/zones/${zone.id}/import`;
                       const res = await fetch(url, {
                         method: 'POST',
-                        body: formData,
-                        // Note: do not set Content-Type header for FormData, browser will set it with boundary
+                        body: textContent,
+                        headers: {
+                          'Content-Type': 'text/plain',
+                        }
                       });
                       
                       if (!res.ok) throw new Error('Failed to import zone file');
