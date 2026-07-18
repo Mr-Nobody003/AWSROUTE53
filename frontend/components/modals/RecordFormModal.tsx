@@ -58,18 +58,18 @@ export function RecordFormModal({ isOpen, onClose, onSubmit, initialData, zoneNa
         
         {/* Breadcrumbs */}
         <div className="mb-4 flex items-center gap-1 text-sm text-gray-500 dark:text-[#8B949E]">
-          <span className="text-blue-600 dark:text-blue-400 hover:underline cursor-pointer">Route 53</span>
+          <span className="cursor-not-allowed text-gray-400 dark:text-gray-500">Route 53</span>
           <span className="text-gray-400">&gt;</span>
-          <span className="text-blue-600 dark:text-blue-400 hover:underline cursor-pointer">Hosted zones</span>
+          <span className="cursor-not-allowed text-gray-400 dark:text-gray-500">Hosted zones</span>
           <span className="text-gray-400">&gt;</span>
-          <span className="text-blue-600 dark:text-blue-400 hover:underline cursor-pointer">{zoneName}</span>
+          <span className="cursor-not-allowed text-gray-400 dark:text-gray-500">{zoneName}</span>
           <span className="text-gray-400">&gt;</span>
           <span className="text-gray-900 dark:text-[#E6EDF3]">{initialData ? 'Edit record' : 'Create record'}</span>
         </div>
 
         <h1 className="text-2xl font-normal text-gray-900 dark:text-[#E6EDF3] mb-6 flex items-center gap-2">
           {initialData ? 'Edit record' : 'Create record'}
-          <span className="text-blue-600 dark:text-blue-400 text-sm cursor-pointer hover:underline">Info</span>
+          <span className="text-gray-400 dark:text-gray-500 text-sm cursor-not-allowed">Info</span>
         </h1>
 
         <form onSubmit={handleSubmit} className="space-y-6 pb-20">
@@ -78,7 +78,7 @@ export function RecordFormModal({ isOpen, onClose, onSubmit, initialData, zoneNa
           <div className="bg-white dark:bg-[#161B22] border border-gray-200 dark:border-[#30363D] shadow-sm">
             <div className="px-6 py-4 flex justify-between items-center border-b border-gray-200 dark:border-[#30363D]">
               <h2 className="text-lg font-bold text-gray-900 dark:text-[#E6EDF3]">Quick create record</h2>
-              <span className="text-blue-600 dark:text-blue-400 text-sm font-bold cursor-pointer hover:underline">Switch to wizard</span>
+              <span className="text-gray-400 dark:text-gray-500 text-sm font-bold cursor-not-allowed">Switch to wizard</span>
             </div>
             
             <div className="p-6">
@@ -98,7 +98,7 @@ export function RecordFormModal({ isOpen, onClose, onSubmit, initialData, zoneNa
                 <div>
                   <label className="block text-sm font-bold text-gray-900 dark:text-[#E6EDF3] mb-2 flex items-center gap-1">
                     Record name
-                    <span className="text-blue-600 dark:text-blue-400 text-xs font-normal cursor-pointer hover:underline">Info</span>
+                    <span className="text-gray-400 dark:text-gray-500 text-xs font-normal cursor-not-allowed">Info</span>
                   </label>
                   <div className="flex items-center gap-2">
                     <input
@@ -118,7 +118,7 @@ export function RecordFormModal({ isOpen, onClose, onSubmit, initialData, zoneNa
                 <div>
                   <label className="block text-sm font-bold text-gray-900 dark:text-[#E6EDF3] mb-2 flex items-center gap-1">
                     Record type
-                    <span className="text-blue-600 dark:text-blue-400 text-xs font-normal cursor-pointer hover:underline">Info</span>
+                    <span className="text-gray-400 dark:text-gray-500 text-xs font-normal cursor-not-allowed">Info</span>
                   </label>
                   <select
                     value={type}
@@ -159,7 +159,7 @@ export function RecordFormModal({ isOpen, onClose, onSubmit, initialData, zoneNa
                 <div className="md:col-span-2">
                   <label className="block text-sm font-bold text-gray-900 dark:text-[#E6EDF3] mb-2 flex items-center gap-1">
                     Value
-                    <span className="text-blue-600 dark:text-blue-400 text-xs font-normal cursor-pointer hover:underline">Info</span>
+                    <span className="text-gray-400 dark:text-gray-500 text-xs font-normal cursor-not-allowed">Info</span>
                   </label>
                   <textarea
                     value={value}
@@ -177,7 +177,7 @@ export function RecordFormModal({ isOpen, onClose, onSubmit, initialData, zoneNa
                 <div>
                   <label className="block text-sm font-bold text-gray-900 dark:text-[#E6EDF3] mb-2 flex items-center gap-1">
                     TTL (seconds)
-                    <span className="text-blue-600 dark:text-blue-400 text-xs font-normal cursor-pointer hover:underline">Info</span>
+                    <span className="text-gray-400 dark:text-gray-500 text-xs font-normal cursor-not-allowed">Info</span>
                   </label>
                   <div className="flex gap-2">
                     <input
@@ -201,7 +201,7 @@ export function RecordFormModal({ isOpen, onClose, onSubmit, initialData, zoneNa
                 <div>
                   <label className="block text-sm font-bold text-gray-900 dark:text-[#E6EDF3] mb-2 flex items-center gap-1">
                     Routing policy
-                    <span className="text-blue-600 dark:text-blue-400 text-xs font-normal cursor-pointer hover:underline">Info</span>
+                    <span className="text-gray-400 dark:text-gray-500 text-xs font-normal cursor-not-allowed">Info</span>
                   </label>
                   <select
                     value={routingPolicy}
@@ -219,7 +219,7 @@ export function RecordFormModal({ isOpen, onClose, onSubmit, initialData, zoneNa
               </div>
 
               <div className="mt-8 flex justify-end pb-4 border-b border-gray-200 dark:border-[#30363D]">
-                <button type="button" className="px-4 py-1 text-[13px] font-bold text-gray-700 dark:text-[#C9D1D9] bg-white dark:bg-[#21262D] border border-gray-400 dark:border-[#484F58] rounded-sm hover:bg-gray-50 dark:hover:bg-[#30363D] shadow-sm">
+                <button type="button" disabled className="px-4 py-1 text-[13px] font-bold text-gray-400 dark:text-gray-600 bg-white dark:bg-[#21262D] border border-gray-300 dark:border-[#484F58] rounded-sm cursor-not-allowed shadow-sm">
                   Add another record
                 </button>
               </div>

@@ -161,7 +161,7 @@ export default function ZoneDetailsPage({ params }: { params: { zoneId: string }
           <div className="flex items-center gap-3">
             <span className="bg-blue-600 text-white text-xs font-bold px-2 py-0.5 rounded-full shadow-sm">Public</span>
             <h1 className="text-xl font-bold text-gray-900 dark:text-[#E6EDF3]">{zone.name}</h1>
-            <span className="text-blue-600 dark:text-blue-400 text-sm font-semibold cursor-pointer hover:underline">Info</span>
+            <span className="text-gray-400 dark:text-gray-500 text-sm font-semibold cursor-not-allowed">Info</span>
           </div>
           <div className="flex gap-2 flex-wrap justify-end">
             <button 
@@ -170,10 +170,10 @@ export default function ZoneDetailsPage({ params }: { params: { zoneId: string }
             >
               Delete zone
             </button>
-            <button className="px-3 py-1 text-sm font-bold text-gray-700 dark:text-[#C9D1D9] bg-white dark:bg-[#21262D] border border-gray-300 dark:border-[#30363D] rounded-sm hover:bg-gray-50 dark:hover:bg-[#30363D] shadow-sm transition-colors">
+            <button disabled className="px-3 py-1 text-sm font-bold text-gray-400 dark:text-gray-600 bg-white dark:bg-[#21262D] border border-gray-300 dark:border-[#30363D] rounded-sm cursor-not-allowed shadow-sm transition-colors">
               Test record
             </button>
-            <button className="px-3 py-1 text-sm font-bold text-gray-700 dark:text-[#C9D1D9] bg-white dark:bg-[#21262D] border border-gray-300 dark:border-[#30363D] rounded-sm hover:bg-gray-50 dark:hover:bg-[#30363D] shadow-sm transition-colors">
+            <button disabled className="px-3 py-1 text-sm font-bold text-gray-400 dark:text-gray-600 bg-white dark:bg-[#21262D] border border-gray-300 dark:border-[#30363D] rounded-sm cursor-not-allowed shadow-sm transition-colors">
               Configure query logging
             </button>
           </div>
@@ -240,17 +240,17 @@ export default function ZoneDetailsPage({ params }: { params: { zoneId: string }
         <button className="px-6 py-3 text-sm font-bold text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400 whitespace-nowrap">
           Records (5)
         </button>
-        <button className="px-6 py-3 text-sm font-bold text-gray-600 dark:text-[#8B949E] hover:text-gray-900 dark:hover:text-[#E6EDF3] whitespace-nowrap">
+        <button disabled className="px-6 py-3 text-sm font-bold text-gray-400 dark:text-gray-600 cursor-not-allowed whitespace-nowrap">
           DNSSEC signing
         </button>
-        <button className="px-6 py-3 text-sm font-bold text-gray-600 dark:text-[#8B949E] hover:text-gray-900 dark:hover:text-[#E6EDF3] whitespace-nowrap">
+        <button disabled className="px-6 py-3 text-sm font-bold text-gray-400 dark:text-gray-600 cursor-not-allowed whitespace-nowrap">
           Hosted zone tags (0)
         </button>
       </div>
 
       <div className="mb-3 bg-white dark:bg-[#161B22] p-4 border border-b-0 border-gray-200 dark:border-[#30363D] shadow-sm">
         <h2 className="text-lg font-bold text-gray-900 dark:text-[#E6EDF3] flex items-center gap-2">
-          Records (1/5) <span className="text-blue-600 dark:text-blue-400 text-sm cursor-pointer hover:underline font-normal">Info</span>
+          Records (1/5) <span className="text-gray-400 dark:text-gray-500 text-sm cursor-not-allowed font-normal">Info</span>
         </h2>
         <p className="text-[13px] text-gray-500 dark:text-[#8B949E] mt-1">
           The following table lists the existing records in {zone.name}. You can't delete the SOA record or the NS record named {zone.name}.

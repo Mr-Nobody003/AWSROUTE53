@@ -75,6 +75,18 @@ def update_zone(zone_id: str, zone_in: schemas.HostedZoneUpdate, db: Session = D
     if not zone:
         raise HTTPException(status_code=404, detail="Hosted Zone not found")
     
+    if zone_in.name is not None and zone_in.name != zone.name:
+        if db.query(models.HostedZone).filter(models.HostedZone.name == zone_in.name).first():
+            raise HTTPException(status_code=400, detail="Zone with this name already exists")
+        
+        old_name = zone.name
+        zone.name = zone_in.name
+        
+        # Optionally update NS and SOA record names
+        for record in zone.records:
+            if record.name == old_name:
+                record.name = zone_in.name
+                
     if zone_in.type is not None:
         zone.type = zone_in.type
     if zone_in.comment is not None:

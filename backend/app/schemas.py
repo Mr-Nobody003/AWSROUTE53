@@ -31,6 +31,7 @@ class HostedZoneCreate(HostedZoneBase):
     pass
 
 class HostedZoneUpdate(BaseModel):
+    name: Optional[str] = None
     type: Optional[str] = None
     comment: Optional[str] = None
 

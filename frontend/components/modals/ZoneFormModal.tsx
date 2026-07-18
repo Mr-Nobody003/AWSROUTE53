@@ -46,17 +46,17 @@ export function ZoneFormModal({ isOpen, onClose, onSubmit, initialData }: ZoneFo
       <div className="max-w-[1200px] mx-auto p-4 sm:p-8">
         
         {/* Breadcrumbs */}
-        <div className="mb-4 flex items-center gap-1 text-sm text-gray-500 dark:text-[#8B949E]">
-          <span className="text-blue-600 dark:text-blue-400 hover:underline cursor-pointer">Route 53</span>
-          <span className="text-gray-400">&gt;</span>
-          <span className="text-blue-600 dark:text-blue-400 hover:underline cursor-pointer">Hosted zones</span>
-          <span className="text-gray-400">&gt;</span>
+        <div className="mb-4 flex items-center gap-1 text-sm text-gray-400 dark:text-gray-500">
+          <span className="cursor-not-allowed">Route 53</span>
+          <span className="">&gt;</span>
+          <span className="cursor-not-allowed">Hosted zones</span>
+          <span className="">&gt;</span>
           <span className="text-gray-900 dark:text-[#E6EDF3]">{initialData ? 'Edit hosted zone' : 'Create hosted zone'}</span>
         </div>
 
         <h1 className="text-2xl font-normal text-gray-900 dark:text-[#E6EDF3] mb-6 flex items-center gap-2">
           {initialData ? 'Edit hosted zone' : 'Create hosted zone'}
-          <span className="text-blue-600 dark:text-blue-400 text-sm cursor-pointer hover:underline">Info</span>
+          <span className="text-gray-400 dark:text-gray-500 text-sm cursor-not-allowed">Info</span>
         </h1>
 
         <form onSubmit={handleSubmit} className="space-y-6 pb-20">
@@ -75,14 +75,14 @@ export function ZoneFormModal({ isOpen, onClose, onSubmit, initialData }: ZoneFo
               <div>
                 <label className="block text-sm font-bold text-gray-900 dark:text-[#E6EDF3] mb-1 flex items-center gap-1">
                   Domain name
-                  <span className="text-blue-600 dark:text-blue-400 text-xs font-normal cursor-pointer hover:underline">Info</span>
+                  <span className="text-gray-400 dark:text-gray-500 text-xs font-normal cursor-not-allowed">Info</span>
                 </label>
                 <p className="text-[13px] text-gray-600 dark:text-[#8B949E] mb-2">This is the name of the domain that you want to route traffic for.</p>
                 <input
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  disabled={!!initialData || loading}
+                  disabled={loading}
                   className="w-full max-w-2xl px-3 py-1.5 text-[13px] border border-gray-400 dark:border-[#484F58] focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 rounded-sm disabled:bg-gray-100 dark:disabled:bg-[#0D1117] bg-white dark:bg-[#0D1117] text-gray-900 dark:text-[#E6EDF3]"
                   required
                 />
@@ -95,7 +95,7 @@ export function ZoneFormModal({ isOpen, onClose, onSubmit, initialData }: ZoneFo
               <div>
                 <label className="block text-sm font-bold text-gray-900 dark:text-[#E6EDF3] mb-1 flex items-center gap-1">
                   Description - <span className="font-normal italic">optional</span>
-                  <span className="text-blue-600 dark:text-blue-400 text-xs font-normal cursor-pointer hover:underline">Info</span>
+                  <span className="text-gray-400 dark:text-gray-500 text-xs font-normal cursor-not-allowed">Info</span>
                 </label>
                 <p className="text-[13px] text-gray-600 dark:text-[#8B949E] mb-2">This value lets you distinguish hosted zones that have the same name.</p>
                 <textarea
@@ -115,7 +115,7 @@ export function ZoneFormModal({ isOpen, onClose, onSubmit, initialData }: ZoneFo
               <div>
                 <label className="block text-sm font-bold text-gray-900 dark:text-[#E6EDF3] mb-1 flex items-center gap-1">
                   Type
-                  <span className="text-blue-600 dark:text-blue-400 text-xs font-normal cursor-pointer hover:underline">Info</span>
+                  <span className="text-gray-400 dark:text-gray-500 text-xs font-normal cursor-not-allowed">Info</span>
                 </label>
                 <p className="text-[13px] text-gray-600 dark:text-[#8B949E] mb-2">The type indicates whether you want to route traffic on the internet or in an Amazon VPC.</p>
                 
@@ -155,13 +155,13 @@ export function ZoneFormModal({ isOpen, onClose, onSubmit, initialData }: ZoneFo
             <div className="px-6 py-5">
               <label className="block text-sm font-bold text-gray-900 dark:text-[#E6EDF3] mb-1 flex items-center gap-1">
                 Tags
-                <span className="text-blue-600 dark:text-blue-400 text-xs font-normal cursor-pointer hover:underline">Info</span>
+                <span className="text-gray-400 dark:text-gray-500 text-xs font-normal cursor-not-allowed">Info</span>
               </label>
               <p className="text-[13px] text-gray-600 dark:text-[#8B949E] mb-6">Apply tags to hosted zones to help organize and identify them.</p>
               
               <p className="text-[13px] text-gray-600 dark:text-[#8B949E] mb-4">No tags associated with the resource.</p>
               
-              <button type="button" className="px-4 py-1 text-sm font-bold text-gray-700 dark:text-[#C9D1D9] bg-white dark:bg-[#21262D] border border-gray-400 dark:border-[#484F58] rounded-sm hover:bg-gray-50 dark:hover:bg-[#30363D] shadow-sm mb-1">
+              <button type="button" disabled className="px-4 py-1 text-sm font-bold text-gray-400 dark:text-gray-600 bg-white dark:bg-[#21262D] border border-gray-300 dark:border-[#30363D] rounded-sm cursor-not-allowed shadow-sm mb-1">
                 Add tag
               </button>
               <p className="text-[11px] text-gray-500 dark:text-[#8B949E]">You can add up to 50 more tags.</p>
