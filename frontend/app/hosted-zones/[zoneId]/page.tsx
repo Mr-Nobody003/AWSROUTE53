@@ -26,14 +26,14 @@ export default function ZoneDetailsPage({ params }: { params: { zoneId: string }
   const router = useRouter();
 
   useEffect(() => {
-    fetchApi(`/zones/${params.zoneId}`).then(setZone).catch(e => {
+    fetchApi<HostedZone>(`/zones/${params.zoneId}`).then(setZone).catch(e => {
       addToast('Hosted zone not found', 'error');
       router.push('/hosted-zones');
     });
   }, [params.zoneId]);
 
   const fetchRecords = useCallback(async (page: number, search: string) => {
-    return await fetchApi(`/zones/${params.zoneId}/records?page=${page}&page_size=10&search=${search}`);
+    return await fetchApi<PaginatedResponse<Record>>(`/zones/${params.zoneId}/records?page=${page}&page_size=10&search=${search}`);
   }, [params.zoneId]);
 
   const handleCreate = async (data: any) => {
