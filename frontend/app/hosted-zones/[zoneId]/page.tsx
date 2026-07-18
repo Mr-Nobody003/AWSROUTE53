@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { DataTable } from '@/components/data-table/DataTable';
 import { RecordFormModal } from '@/components/modals/RecordFormModal';
 import { ConfirmDeleteModal } from '@/components/modals/ConfirmDeleteModal';
+import { ZoneFormModal } from '@/components/modals/ZoneFormModal';
 import { fetchApi, getBackendUrl } from '@/lib/api';
 import { Record, HostedZone, PaginatedResponse } from '@/lib/types';
 import { useToast } from '@/components/notifications/ToastProvider';
@@ -19,6 +20,8 @@ export default function ZoneDetailsPage({ params }: { params: { zoneId: string }
   const [refreshKey, setRefreshKey] = useState(0);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [bulkDeleting, setBulkDeleting] = useState(false);
+  const [isEditZoneOpen, setIsEditZoneOpen] = useState(false);
+  const [isDeleteZoneOpen, setIsDeleteZoneOpen] = useState(false);
   const { addToast } = useToast();
   const router = useRouter();
 
@@ -78,13 +81,42 @@ export default function ZoneDetailsPage({ params }: { params: { zoneId: string }
     setDeleting(true);
     try {
       await fetchApi(`/zones/${params.zoneId}/records/${deleteRecord.id}`, { method: 'DELETE' });
-      addToast(`Record ${deleteRecord.name} deleted`, 'success');
+      addToast('Record deleted', 'success');
       setDeleteRecord(null);
       setRefreshKey(k => k + 1);
     } catch (e: any) {
-      addToast(e.message || 'Failed to delete record', 'error');
+      addToast(e.message, 'error');
     } finally {
       setDeleting(false);
+    }
+  };
+
+  const handleEditZone = async (data: any) => {
+    try {
+      await fetchApi(`/zones/${params.zoneId}`, {
+        method: 'PUT',
+        body: JSON.stringify(data),
+      });
+      addToast('Hosted zone updated successfully', 'success');
+      setZone(prev => prev ? { ...prev, ...data } : null);
+      setIsEditZoneOpen(false);
+    } catch (e: any) {
+      addToast(e.message || 'Failed to update hosted zone', 'error');
+      throw e;
+    }
+  };
+
+  const handleDeleteZone = async () => {
+    setDeleting(true);
+    try {
+      await fetchApi(`/zones/${params.zoneId}?force=true`, { method: 'DELETE' });
+      addToast('Hosted zone deleted', 'success');
+      router.push('/hosted-zones');
+    } catch (e: any) {
+      addToast(e.message || 'Failed to delete hosted zone', 'error');
+    } finally {
+      setDeleting(false);
+      setIsDeleteZoneOpen(false);
     }
   };
 
@@ -132,7 +164,10 @@ export default function ZoneDetailsPage({ params }: { params: { zoneId: string }
             <span className="text-blue-600 dark:text-blue-400 text-sm font-semibold cursor-pointer hover:underline">Info</span>
           </div>
           <div className="flex gap-2 flex-wrap justify-end">
-            <button className="px-3 py-1 text-sm font-bold text-gray-700 dark:text-[#C9D1D9] bg-white dark:bg-[#21262D] border border-gray-300 dark:border-[#30363D] rounded-sm hover:bg-gray-50 dark:hover:bg-[#30363D] shadow-sm transition-colors">
+            <button 
+              onClick={() => setIsDeleteZoneOpen(true)}
+              className="px-3 py-1 text-sm font-bold text-gray-700 dark:text-[#C9D1D9] bg-white dark:bg-[#21262D] border border-gray-300 dark:border-[#30363D] rounded-sm hover:bg-gray-50 dark:hover:bg-[#30363D] shadow-sm transition-colors"
+            >
               Delete zone
             </button>
             <button className="px-3 py-1 text-sm font-bold text-gray-700 dark:text-[#C9D1D9] bg-white dark:bg-[#21262D] border border-gray-300 dark:border-[#30363D] rounded-sm hover:bg-gray-50 dark:hover:bg-[#30363D] shadow-sm transition-colors">
@@ -149,7 +184,10 @@ export default function ZoneDetailsPage({ params }: { params: { zoneId: string }
             <h2 className="text-lg font-bold text-gray-900 dark:text-[#E6EDF3] flex items-center gap-2">
               <span className="text-xs">▼</span> Hosted zone details
             </h2>
-            <button className="px-3 py-1 text-sm font-bold text-gray-700 dark:text-[#C9D1D9] bg-white dark:bg-[#21262D] border border-gray-300 dark:border-[#30363D] rounded-sm hover:bg-gray-50 dark:hover:bg-[#30363D] shadow-sm transition-colors">
+            <button 
+              onClick={() => setIsEditZoneOpen(true)}
+              className="px-3 py-1 text-sm font-bold text-gray-700 dark:text-[#C9D1D9] bg-white dark:bg-[#21262D] border border-gray-300 dark:border-[#30363D] rounded-sm hover:bg-gray-50 dark:hover:bg-[#30363D] shadow-sm transition-colors"
+            >
               Edit hosted zone
             </button>
           </div>
@@ -336,11 +374,23 @@ export default function ZoneDetailsPage({ params }: { params: { zoneId: string }
         onClose={() => setDeleteRecord(null)}
         onConfirm={handleDelete}
         title="Delete Record"
-        message={
-          <>
-            Are you sure you want to delete the record <strong>{deleteRecord?.name}</strong>? This action cannot be undone.
-          </>
-        }
+        message={<>Are you sure you want to delete <strong className="text-slate-900 dark:text-[#E6EDF3]">{deleteRecord?.name}</strong>? This action cannot be undone.</>}
+        loading={deleting}
+      />
+
+      <ZoneFormModal
+        isOpen={isEditZoneOpen}
+        onClose={() => setIsEditZoneOpen(false)}
+        onSubmit={handleEditZone}
+        initialData={zone}
+      />
+
+      <ConfirmDeleteModal
+        isOpen={isDeleteZoneOpen}
+        onClose={() => setIsDeleteZoneOpen(false)}
+        onConfirm={handleDeleteZone}
+        title="Delete Hosted Zone"
+        message={<>Are you sure you want to delete <strong className="text-slate-900 dark:text-[#E6EDF3]">{zone.name}</strong>? All DNS records within this zone will be permanently removed.</>}
         loading={deleting}
       />
     </div>
