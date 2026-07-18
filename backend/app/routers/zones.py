@@ -46,7 +46,7 @@ def create_zone(zone_in: schemas.HostedZoneCreate, db: Session = Depends(deps.ge
         name=db_zone.name,
         type="NS",
         ttl=172800,
-        value="ns-1536.awsdns-64.org\nns-0.awsdns-00.com\nns-1024.awsdns-00.co.uk\nns-512.awsdns-00.net",
+        value="ns1.cloudroute.net\nns2.cloudroute.net\nns3.cloudroute.net\nns4.cloudroute.net",
         is_default=True
     )
     soa_record = models.Record(
@@ -54,7 +54,7 @@ def create_zone(zone_in: schemas.HostedZoneCreate, db: Session = Depends(deps.ge
         name=db_zone.name,
         type="SOA",
         ttl=900,
-        value="ns-1536.awsdns-64.org. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400",
+        value="ns1.cloudroute.net. hostmaster.cloudroute.net. 1 7200 900 1209600 86400",
         is_default=True
     )
     db.add_all([ns_record, soa_record])

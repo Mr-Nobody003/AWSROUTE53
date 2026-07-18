@@ -14,8 +14,8 @@
     --text: #E6EDF3;
     --text-secondary: #C9D1D9;
     --text-muted: #8B949E;
-    --aws-orange: #FF9900;
-    --aws-orange-dark: #E68900;
+    --theme-accent: #FF9900;
+    --theme-accent-dark: #E68900;
     --sidebar-width: 240px;
     --topnav-height: 52px;
   }

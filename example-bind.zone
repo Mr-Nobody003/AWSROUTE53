@@ -1,0 +1,27 @@
+$ORIGIN example.com.      ; Base domain shortcut for relative records
+$TTL 86400                ; Default Time-To-Live (1 day) in seconds
+
+; --- Start of Authority (SOA) Record ---
+@   IN   SOA   ns1.example.com. hostmaster.example.com. (
+        2026071801        ; Serial number (YYYYMMDDNN format recommended)
+        21600             ; Refresh rate (6 hours)
+        3600              ; Retry rate (1 hour)
+        604800            ; Expire time (1 week)
+        86400             ; Minimum TTL (1 day)
+)
+
+; --- Name Server (NS) Records ---
+@   IN   NS    ns1.example.com.
+@   IN   NS    ns2.example.com.
+
+; --- Mail Exchange (MX) Records ---
+@   IN   MX 10 mail.example.com.
+
+; --- Address (A/AAAA) Records ---
+ns1    IN   A     192.168.1.10
+ns2    IN   A     192.168.1.11
+mail   IN   A     192.168.1.20
+www    IN   A     192.168.1.100
+
+; --- Alias (CNAME) Records ---
+ftp    IN   CNAME www.example.com.

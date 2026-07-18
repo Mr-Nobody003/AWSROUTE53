@@ -43,7 +43,7 @@ def create_record(zone_id: str, record_in: schemas.RecordCreate, db: Session = D
     if not db.query(models.HostedZone).filter(models.HostedZone.id == zone_id).first():
         raise HTTPException(status_code=404, detail="Hosted Zone not found")
         
-    # Check if record with same name and type already exists (except for multi-value which is handled in frontend by newline separated, but Route53 technically allows multiple for some or combines them. For simplicity, we just check exact name/type conflict if it's CNAME or if we just assume uniqueness per name+type)
+    # Verify record uniqueness. Standard DNS specifications allow multiple records of the same type (like multiple A records) which we combine using newlines. We check for exact name/type conflicts or CNAME exclusivity.
     existing = db.query(models.Record).filter(
         models.Record.zone_id == zone_id,
         models.Record.name == record_in.name,
@@ -59,6 +59,15 @@ def create_record(zone_id: str, record_in: schemas.RecordCreate, db: Session = D
             models.Record.name == record_in.name
         ).first()
         if other_types:
+            raise HTTPException(status_code=400, detail="CNAME records cannot coexist with other records for the same name.")
+    else:
+        # Check if a CNAME exists when creating a non-CNAME record
+        cname_record = db.query(models.Record).filter(
+            models.Record.zone_id == zone_id,
+            models.Record.name == record_in.name,
+            models.Record.type == "CNAME"
+        ).first()
+        if cname_record:
             raise HTTPException(status_code=400, detail="CNAME records cannot coexist with other records for the same name.")
 
     db_record = models.Record(

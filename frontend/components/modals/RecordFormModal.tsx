@@ -104,8 +104,8 @@ export function RecordFormModal({ isOpen, onClose, onSubmit, initialData, zoneNa
                   disabled={loading || !!initialData}
                   className="w-full px-3 py-1.5 text-sm border border-slate-300 dark:border-[#30363D] rounded focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500 disabled:bg-slate-100 dark:disabled:bg-[#0D1117] disabled:text-slate-500 dark:bg-[#161B22] dark:text-[#E6EDF3] [&>option]:dark:bg-[#161B22] [&>option]:dark:text-[#E6EDF3]"
                 >
-                  <option value="A">A - Routes traffic to an IPv4 address and some AWS resources</option>
-                  <option value="AAAA">AAAA - Routes traffic to an IPv6 address and some AWS resources</option>
+                  <option value="A">A - Routes traffic to an IPv4 address and associated cloud resources</option>
+                  <option value="AAAA">AAAA - Routes traffic to an IPv6 address and associated cloud resources</option>
                   <option value="CNAME">CNAME - Routes traffic to another domain name</option>
                   <option value="MX">MX - Specifies mail servers</option>
                   <option value="TXT">TXT - Text record</option>

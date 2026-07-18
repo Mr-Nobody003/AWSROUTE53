@@ -69,7 +69,11 @@ The application supports several power-user keyboard shortcuts to improve produc
    ```bash
    npm install
    ```
-3. Run the Next.js development server:
+3. Copy the environment variables:
+   ```bash
+   cp .env.example .env.local
+   ```
+4. Run the Next.js development server:
    ```bash
    npm run dev
    ```

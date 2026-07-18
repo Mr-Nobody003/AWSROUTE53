@@ -109,7 +109,7 @@ export function ZoneFormModal({ isOpen, onClose, onSubmit, initialData }: ZoneFo
                   {
                     value: 'Private',
                     label: 'Private hosted zone',
-                    desc: 'Routes traffic within Amazon VPCs only',
+                    desc: 'Routes traffic within Amazon Virtual Private Clouds (VPCs) only',
                   },
                 ].map((opt) => (
                   <label

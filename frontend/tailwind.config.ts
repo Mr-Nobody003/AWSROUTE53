@@ -10,9 +10,9 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        aws: {
-          orange: "#FF9900",
-          "orange-dark": "#E68900",
+        theme: {
+          orange: 'var(--theme-accent)',
+          'orange-dark': 'var(--theme-accent-dark)',
           "orange-light": "#FFB347",
           navy: "#0D1117",
           "navy-light": "#161B22",
@@ -58,7 +58,7 @@ const config: Config = {
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "aws-gradient": "linear-gradient(135deg, #FF9900 0%, #FFB347 100%)",
+        "theme-gradient": "linear-gradient(135deg, #FF9900 0%, #FFB347 100%)",
         shimmer:
           "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.04) 50%, transparent 100%)",
       },

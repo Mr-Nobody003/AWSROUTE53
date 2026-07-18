@@ -5,7 +5,7 @@ from sqlalchemy.orm import relationship
 from .database import Base
 
 def generate_zone_id():
-    # Route53 style ID e.g., Z + 12 random uppercase alphanumeric characters
+    # Generate a standard zone identifier starting with Z followed by 12 random alphanumeric chars
     return "Z" + uuid.uuid4().hex[:12].upper()
 
 class User(Base):
