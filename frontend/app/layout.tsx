@@ -7,6 +7,7 @@ import { ThemeProvider } from '@/components/theme/ThemeProvider';
 import { TopNav } from '@/components/layout/TopNav';
 import { SideNav } from '@/components/layout/SideNav';
 import { KeyboardShortcuts } from '@/components/layout/KeyboardShortcuts';
+import { Analytics } from '@vercel/analytics/next';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -42,6 +43,7 @@ export default function RootLayout({
             </ToastProvider>
           </AuthProvider>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
