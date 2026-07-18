@@ -126,23 +126,23 @@
   }
 
   .data-table thead tr {
-    @apply bg-[#1A1F27] border-b border-[#30363D];
+    @apply bg-gray-100 dark:bg-[#1A1F27] border-b border-gray-200 dark:border-[#30363D];
   }
 
   .data-table thead th {
-    @apply px-4 py-3 text-xs font-semibold text-[#8B949E] uppercase tracking-wider whitespace-nowrap;
+    @apply px-4 py-3 text-xs font-semibold text-gray-800 dark:text-[#8B949E] uppercase tracking-wider whitespace-nowrap;
   }
 
   .data-table tbody tr {
-    @apply border-b border-[#21262D] transition-colors duration-100;
+    @apply border-b border-gray-200 dark:border-[#21262D] transition-colors duration-100 bg-white dark:bg-transparent;
   }
 
   .data-table tbody tr:hover {
-    @apply bg-[#1C2128];
+    @apply bg-gray-50 dark:bg-[#1C2128];
   }
 
   .data-table tbody td {
-    @apply px-4 py-3 text-[#C9D1D9];
+    @apply px-4 py-3 text-gray-900 dark:text-[#C9D1D9];
   }
 
   /* ---- Glow effect ---- */

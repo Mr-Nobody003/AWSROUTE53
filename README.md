@@ -4,12 +4,19 @@ This project is a functional clone of the AWS Route53 web application, built wit
 
 ## Architecture
 
-![Architecture](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1200px-React-icon.svg.png) <!-- Just a placeholder if we needed one -->
 The application uses a separated frontend and backend deployed using Vercel Services to a single domain, avoiding CORS configurations entirely.
 
 - **Frontend:** Next.js App Router, Tailwind CSS, TypeScript
 - **Backend:** FastAPI, SQLAlchemy
 - **Database:** SQLite (local development) / Turso (production via `libsql` dialect)
+
+```mermaid
+graph TD
+    Client[Web Browser] -->|HTTPS| Vercel[Vercel Services]
+    Vercel -->|Route /*| Frontend[Next.js Frontend]
+    Vercel -->|Route /api/*| Backend[FastAPI Backend]
+    Backend -->|SQLite / libSQL| Database[(Turso / Local DB)]
+```
 
 ## Features
 
@@ -21,6 +28,15 @@ The application uses a separated frontend and backend deployed using Vercel Serv
 - **Keyboard Shortcuts**: Power user shortcuts (e.g. `H` for hosted zones, `/` for search, `N` for new).
 - **Notification Center**: Persistent notifications history with read states, stored via toast provider.
 - **API Versioning**: Environment variable driven frontend to backend routing via `/api/v1/`.
+
+## Key Bindings
+
+The application supports several power-user keyboard shortcuts to improve productivity:
+- `H`: Navigate to Hosted Zones
+- `/`: Focus search input (where applicable)
+- `N`: Create a new resource (Hosted Zone or Record)
+- `Esc`: Close modals or cancel actions
+- `Enter`: Submit forms
 
 ## Local Development Setup
 
@@ -64,11 +80,58 @@ The application uses a separated frontend and backend deployed using Vercel Serv
 - **Username:** admin
 - **Password:** Admin@123
 
-## Database Schema
+## Database Schema & ER Model
 
 - `User`: Handles mocked authentication.
 - `HostedZone`: Stores the domains created.
 - `Record`: Stores the DNS records per zone (A, AAAA, CNAME, TXT, MX, NS, PTR, SRV, CAA, SOA). Multi-value records are separated by newlines.
+
+```mermaid
+erDiagram
+    USERS {
+        int id PK
+        string username
+        string password_hash
+        datetime created_at
+    }
+    HOSTED_ZONES {
+        string id PK
+        string name
+        string type
+        string comment
+        datetime created_at
+        datetime updated_at
+    }
+    RECORDS {
+        int id PK
+        string zone_id FK
+        string name
+        string type
+        int ttl
+        text value
+        string routing_policy
+        boolean is_default
+        datetime created_at
+        datetime updated_at
+    }
+
+    HOSTED_ZONES ||--o{ RECORDS : "contains"
+```
+
+## Dataflow Diagram (DFD)
+
+```mermaid
+flowchart LR
+    User([User]) -->|API Requests| Auth[Authentication System]
+    Auth -->|Validated Requests| ZoneAPI[Zone Management API]
+    Auth -->|Validated Requests| RecordAPI[Record Management API]
+    ZoneAPI <--> DB[(Database)]
+    RecordAPI <--> DB[(Database)]
+    User -->|Import BIND File| ImportService[Import/Export Service]
+    ImportService -->|Parse & Save| DB
+    DB -->|Read Zone Data| ImportService
+    ImportService -->|Export Format| User
+```
 
 ## API Overview
 
