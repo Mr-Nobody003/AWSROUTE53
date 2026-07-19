@@ -36,7 +36,7 @@ export function TopNav() {
           aria-label="AWS Route 53 Home"
         >
           {/* AWS badge */}
-          <img src="/logo.png" alt="Logo" className="w-8 h-8 object-contain" />
+          <img src="/logo.webp" alt="Logo" className="w-8 h-8 object-contain" />
           <div className="flex flex-col leading-none">
             <span className="text-[9px] font-bold tracking-widest uppercase text-[#FF9900]">AWS</span>
             <span className="text-sm font-bold text-slate-900 dark:text-[#E6EDF3] tracking-tight">Route 53</span>

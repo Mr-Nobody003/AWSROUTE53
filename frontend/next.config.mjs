@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   eslint: {
-    // ESLint errors won't fail production builds — fix them locally at your own pace
+    // ESLint errors won't fail production builds — fix them locally
     ignoreDuringBuilds: true,
   },
   typescript: {

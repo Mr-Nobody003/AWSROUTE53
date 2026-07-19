@@ -50,7 +50,7 @@ export default function LoginPage() {
         <div className="bg-white dark:bg-[#161B22] border border-slate-200 dark:border-[#21262D] rounded-2xl shadow-2xl overflow-hidden">
           {/* Header band */}
           <div className="bg-gradient-to-r from-[#FF9900]/20 to-[#FFB347]/10 border-b border-[#FF9900]/20 px-8 py-6 text-center">
-            <img src="/logo.png" alt="Logo" className="w-16 h-16 mx-auto mb-4 object-contain" />
+            <img src="/logo.webp" alt="Logo" className="w-16 h-16 mx-auto mb-4 object-contain" />
             <h1 className="text-xl font-bold text-slate-900 dark:text-[#E6EDF3]">AWS Route 53 Console</h1>
             <p className="text-sm text-slate-500 dark:text-[#8B949E] mt-1">Sign in to manage your DNS infrastructure</p>
           </div>
