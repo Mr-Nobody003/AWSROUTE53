@@ -98,14 +98,7 @@ export default function HostedZonesPage() {
         </span>
       ),
     },
-    {
-      header: 'Description',
-      cell: (item: HostedZone) => (
-        <span className="text-slate-500 dark:text-[#8B949E] truncate max-w-xs block">
-          {(item as any).comment || <span className="text-slate-500 dark:text-[#484F58]">—</span>}
-        </span>
-      ),
-    },
+
   ];
 
   return (
