@@ -1,13 +1,14 @@
-'use client';
-import { useState } from 'react';
-import { useAuth } from '@/lib/auth-context';
-import { fetchApi } from '@/lib/api';
-import { useToast } from '@/components/notifications/ToastProvider';
-import { Zap, Lock, User, Eye, EyeOff, ArrowRight } from 'lucide-react';
+"use client";
+import { useState } from "react";
+import { useAuth } from "@/lib/auth-context";
+import { fetchApi } from "@/lib/api";
+import { useToast } from "@/components/notifications/ToastProvider";
+import { Zap, Lock, User, Eye, EyeOff, ArrowRight } from "lucide-react";
+import Image from 'next/image';
 
 export default function LoginPage() {
-  const [username, setUsername] = useState('admin');
-  const [password, setPassword] = useState('Admin@123');
+  const [username, setUsername] = useState("admin");
+  const [password, setPassword] = useState("Admin@123");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
@@ -17,14 +18,17 @@ export default function LoginPage() {
     e.preventDefault();
     setLoading(true);
     try {
-      await fetchApi('/auth/login', {
-        method: 'POST',
+      await fetchApi("/auth/login", {
+        method: "POST",
         body: JSON.stringify({ username, password }),
       });
-      addToast('Welcome back! Signed in successfully.', 'success');
+      addToast("Welcome back! Signed in successfully.", "success");
       login(username);
     } catch (err: any) {
-      addToast(err.message || 'Invalid credentials. Please try again.', 'error');
+      addToast(
+        err.message || "Invalid credentials. Please try again.",
+        "error",
+      );
     } finally {
       setLoading(false);
     }
@@ -40,7 +44,7 @@ export default function LoginPage() {
           className="absolute inset-0 opacity-[0.015]"
           style={{
             backgroundImage:
-              'repeating-linear-gradient(0deg, #fff 0px, #fff 1px, transparent 1px, transparent 40px), repeating-linear-gradient(90deg, #fff 0px, #fff 1px, transparent 1px, transparent 40px)',
+              "repeating-linear-gradient(0deg, #fff 0px, #fff 1px, transparent 1px, transparent 40px), repeating-linear-gradient(90deg, #fff 0px, #fff 1px, transparent 1px, transparent 40px)",
           }}
         />
       </div>
@@ -50,9 +54,20 @@ export default function LoginPage() {
         <div className="bg-white dark:bg-[#161B22] border border-slate-200 dark:border-[#21262D] rounded-2xl shadow-2xl overflow-hidden">
           {/* Header band */}
           <div className="bg-gradient-to-r from-[#FF9900]/20 to-[#FFB347]/10 border-b border-[#FF9900]/20 px-8 py-6 text-center">
-            <img src="/logo.webp" alt="Logo" className="w-16 h-16 mx-auto mb-4 object-contain" />
-            <h1 className="text-xl font-bold text-slate-900 dark:text-[#E6EDF3]">AWS Route 53 Console</h1>
-            <p className="text-sm text-slate-500 dark:text-[#8B949E] mt-1">Sign in to manage your DNS infrastructure</p>
+            <Image
+              src="/logo.webp"
+              alt="Logo"
+              width={64}
+              height={64}
+              className="mx-auto mb-4 object-contain"
+              priority
+            />
+            <h1 className="text-xl font-bold text-slate-900 dark:text-[#E6EDF3]">
+              AWS Route 53 Console
+            </h1>
+            <p className="text-sm text-slate-500 dark:text-[#8B949E] mt-1">
+              Sign in to manage your DNS infrastructure
+            </p>
           </div>
 
           {/* Form */}
@@ -92,7 +107,7 @@ export default function LoginPage() {
                 </div>
                 <input
                   id="password"
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="input-field pl-9 pr-10"
@@ -106,7 +121,11 @@ export default function LoginPage() {
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-[#484F58] hover:text-slate-600 dark:hover:text-[#8B949E] transition-colors"
                   tabIndex={-1}
                 >
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  {showPassword ? (
+                    <EyeOff className="w-4 h-4" />
+                  ) : (
+                    <Eye className="w-4 h-4" />
+                  )}
                 </button>
               </div>
             </div>
